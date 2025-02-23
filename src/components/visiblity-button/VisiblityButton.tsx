@@ -20,28 +20,17 @@ interface KeyListItemProps {
   onChange: (checked: boolean) => void;
 }
 
-const VisiblityKeySection: React.FC<VisibilityKeySectionProps> = ({
-  title,
-  children,
-}) => (
+const VisiblityKeySection: React.FC<VisibilityKeySectionProps> = ({ title, children }) => (
   <>
     <h4 className="text-lg font-bold">{title}</h4>
     <ul className="grid grid-flow-row grid-cols-5 gap-2 p-2">{children}</ul>
   </>
 );
 
-const KeyListItem: React.FC<KeyListItemProps> = ({
-  keyName,
-  checked,
-  onChange,
-}) => (
+const KeyListItem: React.FC<KeyListItemProps> = ({ keyName, checked, onChange }) => (
   <li className="whitespace-nowrap">
     <label className="flex items-center gap-1">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-      />
+      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
       {keyName}
     </label>
   </li>
@@ -76,17 +65,11 @@ export const VisiblityButton: React.FC<VisibilityButtonProps> = ({
   }, []);
 
   const commonKeys = ListUtils.alphabetize(allKeys.filter(isCommonKey));
-  const otherKeys = ListUtils.alphabetize(
-    allKeys.filter((key) => !isCommonKey(key)),
-  );
+  const otherKeys = ListUtils.alphabetize(allKeys.filter((key) => !isCommonKey(key)));
 
   return (
     <div className="flex items-center relative">
-      <button
-        onClick={() => setOpen(!open)}
-        ref={triggerRef}
-        className="flex items-center"
-      >
+      <button onClick={() => setOpen(!open)} ref={triggerRef} className="flex items-center">
         <MaterialIcon name="visibility" />
       </button>
       {open && (
@@ -94,38 +77,47 @@ export const VisiblityButton: React.FC<VisibilityButtonProps> = ({
           className="bg-neutral border border-primary p-2 rounded z-10 absolute top-full left-3 mt-1 w-[48vw] max-h-[27vw] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
           ref={popoverRef}
         >
-          <VisiblityKeySection title="Common">
-            {commonKeys.map((key) => (
-              <KeyListItem
-                key={key}
-                keyName={key}
-                checked={filteredKeys.includes(key)}
-                onChange={(checked) => {
-                  if (checked) {
-                    setFilteredKeys([...filteredKeys, key]);
-                  } else {
-                    setFilteredKeys(filteredKeys.filter((k) => k !== key));
-                  }
-                }}
-              />
-            ))}
-          </VisiblityKeySection>
-          <VisiblityKeySection title="Other">
-            {otherKeys.map((key) => (
-              <KeyListItem
-                key={key}
-                keyName={key}
-                checked={filteredKeys.includes(key)}
-                onChange={(checked) => {
-                  if (checked) {
-                    setFilteredKeys([...filteredKeys, key]);
-                  } else {
-                    setFilteredKeys(filteredKeys.filter((k) => k !== key));
-                  }
-                }}
-              />
-            ))}
-          </VisiblityKeySection>
+          {allKeys.length === 0 && (
+            <VisiblityKeySection title="">
+              <p className="text-sm text-gray-500">No keys found</p>
+            </VisiblityKeySection>
+          )}
+          {commonKeys.length > 0 && (
+            <VisiblityKeySection title="Common">
+              {commonKeys.map((key) => (
+                <KeyListItem
+                  key={key}
+                  keyName={key}
+                  checked={filteredKeys.includes(key)}
+                  onChange={(checked) => {
+                    if (checked) {
+                      setFilteredKeys([...filteredKeys, key]);
+                    } else {
+                      setFilteredKeys(filteredKeys.filter((k) => k !== key));
+                    }
+                  }}
+                />
+              ))}
+            </VisiblityKeySection>
+          )}
+          {otherKeys.length > 0 && (
+            <VisiblityKeySection title="Other">
+              {otherKeys.map((key) => (
+                <KeyListItem
+                  key={key}
+                  keyName={key}
+                  checked={filteredKeys.includes(key)}
+                  onChange={(checked) => {
+                    if (checked) {
+                      setFilteredKeys([...filteredKeys, key]);
+                    } else {
+                      setFilteredKeys(filteredKeys.filter((k) => k !== key));
+                    }
+                  }}
+                />
+              ))}
+            </VisiblityKeySection>
+          )}
         </div>
       )}
     </div>

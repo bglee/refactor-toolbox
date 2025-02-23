@@ -222,7 +222,7 @@ const useFilterBoxInternalState = <T extends string>({
     [
       currentTag,
       currentTermSearch,
-      filter.tags,
+      filter,
       onChange,
       selectedIndex,
       termOptionsFiltered,
@@ -331,12 +331,23 @@ export const FilterBox = <T extends string>({
 
         {filter.tags.map(({ tag, term }, i) => (
           <div
-            className="badge whitespace-nowrap"
+            className="badge whitespace-nowrap rounded-md p-2 shadow-sm shadow-primary/40 h-6 mr-3 flex items-center justify-center"
             key={i}
-          >{`${tag}: ${term}`}</div>
+          >
+            <div className="cursor-pointer text-[14px] flex items-center justify-center mr-2 font-bold font-mono text-primary/50">
+              x
+            </div>
+
+            <span className="">{`${tag} : `}</span>
+            <span className="text-primary/80 pl-1">{term}</span>
+          </div>
         ))}
 
-        {currentTag !== "" && <div className="badge">{currentTag}:</div>}
+        {currentTag !== "" && (
+          <div className="badge whitespace-nowrap rounded-md shadow-sm shadow-primary/20 h-6">
+            {currentTag}:
+          </div>
+        )}
 
         <input
           value={isTagSearch ? currentTagSearch : currentTermSearch}

@@ -1,27 +1,27 @@
-import { CodeBlock, dracula } from "react-code-blocks";
-import { NavBar } from "./components/navigation/NavBar";
+import { NavBar } from "./components/navigation/HeaderBar";
 import { FilterBox, useFilterBoxState } from "./components/filter/FilterBox";
-import { FileSelect } from "./components/common/FileSelect";
-import { useAstParser } from "./hooks/useAstParser";
+import { FileSelect } from "./components/file-select/FileSelect";
 import { useEffect, useMemo, useState } from "react";
 import { VisiblityButton } from "./components/visiblity-button/VisiblityButton";
 import { isDefaultVisible } from "./config/common_keys";
 import { ASTVisualizer } from "./components/ast-visualizer/ASTVisualizer";
 import { useFilteredASTNodes } from "./hooks/useFilteredASTNodes";
 import { useSearchTerms } from "./hooks/useSearchTerms";
+import { CodeVisualizer } from "./components/code-visulizer/CodeVisualizer";
+import { useSourceFileParser } from "./hooks/useSourceFileParser";
 
 function App() {
-  const [code, setCode] = useState<string>("");
-  const astNode = useAstParser(code);
+  const { ast, code, setCode } = useSourceFileParser();
   const { filter, updateFilter } = useFilterBoxState();
+
   const [filteredSearchKeys, setFilteredSearchKeys] = useState<string[]>([]);
 
-  const searchTerms = useSearchTerms(astNode);
+  const searchTerms = useSearchTerms(ast);
 
   const allKeys = useMemo(
     //Filter out keys with no search terms
     () => Object.entries(searchTerms).map(([key]) => key),
-    [searchTerms],
+    [searchTerms]
   );
 
   const searchKeys = useMemo(
@@ -30,14 +30,14 @@ function App() {
       Object.entries(searchTerms)
         .filter(([_key, value]) => value.length > 0)
         .map(([key]) => key),
-    [searchTerms],
+    [searchTerms]
   );
 
   useEffect(() => {
     setFilteredSearchKeys(allKeys.filter(isDefaultVisible));
   }, [allKeys]);
 
-  const filteredASTNodes = useFilteredASTNodes(astNode, filter);
+  const filteredASTNodes = useFilteredASTNodes(ast, filter);
 
   return (
     <div className="flex flex-col h-screen bg-black">
@@ -45,16 +45,15 @@ function App() {
         <NavBar />
       </div>
       <div className="flex-1/4 m-1 p-2 rounded bg-base-200">
-        <FileSelect onChange={setCode} />
+        <FileSelect
+          onChange={(content, languageName, parserId) =>
+            setCode({ content, languageName, parserId })
+          }
+        />
       </div>
       <div className="flex flex-row flex-1 overflow-hidden">
         <div className="flex-1 overflow-auto h-full m-1 rounded bg-base-200">
-          <CodeBlock
-            text={code}
-            language="javascript"
-            showLineNumbers={true}
-            theme={dracula}
-          />
+          <CodeVisualizer code={code.content} language="javascript" />
         </div>
         <div className="flex-1 overflow-auto h-full p-3 m-1 rounded bg-base-200">
           <div className="flex">
@@ -70,10 +69,7 @@ function App() {
               filterTermOptions={searchTerms}
             />
           </div>
-          <ASTVisualizer
-            mainNode={filteredASTNodes}
-            displayKeys={filteredSearchKeys}
-          />
+          <ASTVisualizer nodes={filteredASTNodes} displayKeys={filteredSearchKeys} />
         </div>
       </div>
     </div>

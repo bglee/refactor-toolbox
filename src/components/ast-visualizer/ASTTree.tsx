@@ -2,10 +2,12 @@ import { ASTNode } from "../../model/AstNode";
 import { ASTNodeProvider, useASTNodeState } from "./ASTNodeContext";
 import ASTNodeDisplay from "./ASTNodeDisplay";
 
-export const ASTTree = <T extends string>(
-  astNode: ASTNode,
-  displayKeys: T[],
-) => {
+type ASTTreeProps = {
+  astNode: ASTNode;
+  displayKeys: string[];
+};
+
+export const ASTTree: React.FC<ASTTreeProps> = ({ astNode, displayKeys }) => {
   const astNodeState = useASTNodeState();
 
   return (

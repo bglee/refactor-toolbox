@@ -1,3 +1,4 @@
+# Refactor Toolbox
 
 ## How to run
 
@@ -42,8 +43,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 # Abstract Syntax Tree (AST) Resources
 
-
 ## What is an AST?
+
 An Abstract Syntax Tree (AST) is a tree representation of the abstract syntactic structure of source code. It's a crucial data structure used in compilers and code analysis tools that:
 
 - Represents program structure while omitting unnecessary syntax details (like parentheses and semicolons)
@@ -52,12 +53,14 @@ An Abstract Syntax Tree (AST) is a tree representation of the abstract syntactic
 - Enables code analysis, transformation, and generation
 
 Key properties that make ASTs useful:
+
 - Can be enhanced with additional information and annotations
 - Excludes unnecessary punctuation and delimiters
 - Contains metadata about code elements (like source positions)
 - Preserves program structure in a format suitable for analysis
 
 ## Common Use Cases
+
 - Compiler design and implementation
 - Code analysis and transformation
 - Program verification
@@ -66,6 +69,7 @@ Key properties that make ASTs useful:
 - Clone detection (finding duplicate code)
 
 ## Useful AST Tools
+
 - [ESTree Spec](https://github.com/estree/estree) - The standard specification for JavaScript ASTs
 - [TypeScript AST Viewer](https://ts-ast-viewer.com/) - Interactive tool for exploring TypeScript ASTs
 - [AST Explorer](https://astexplorer.net/) - Web tool to explore ASTs in multiple languages
@@ -73,40 +77,49 @@ Key properties that make ASTs useful:
 ## Language-Specific AST Definitions
 
 ### JavaScript/TypeScript
+
 - [ESTree Spec](https://github.com/estree/estree) - The standard for JS/TS ASTs
 - [TypeScript Compiler API](https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API) - Official TypeScript AST docs
 - [Babel Parser (formerly Babylon)](https://github.com/babel/babel/tree/main/packages/babel-parser) - Detailed AST spec
 
 ### Python
+
 - [Green Tree Snakes](https://greentreesnakes.readthedocs.io/en/latest/) - Python AST reference
 - [Python AST Module Documentation](https://docs.python.org/3/library/ast.html) - Official Python docs
 - [Python AST Explorer](https://python-ast-explorer.com/) - Interactive AST explorer
 
 ### Java
+
 - [Eclipse JDT AST](https://help.eclipse.org/latest/topic/org.eclipse.jdt.doc.isv/reference/api/org/eclipse/jdt/core/dom/AST.html) - Eclipse's Java AST spec
 - [JavaParser AST Documentation](https://javaparser.org/documentation.html) - Comprehensive Java AST docs
 
 ### Ruby
+
 - [RubyParser AST Node Types](https://github.com/seattlerb/ruby_parser/blob/master/lib/ruby_parser_extras.rb) - Ruby AST definitions
 - [Parser Gem Documentation](https://whitequark.github.io/parser/) - Detailed Ruby parser docs
 
 ### C/C++
+
 - [Clang AST](https://clang.llvm.org/docs/IntroductionToTheClangAST.html) - Official Clang AST documentation
 - [GCC AST Documentation](https://gcc.gnu.org/onlinedocs/gccint/Tree-overview.html) - GCC internal AST docs
 
 ### Go
+
 - [Go Parser Package](https://pkg.go.dev/go/parser) - Official Go parser documentation
 - [Go AST Package](https://pkg.go.dev/go/ast) - Official Go AST package docs
 
 ### Rust
+
 - [Rust AST Reference](https://doc.rust-lang.org/nightly/nightly-rustc/rustc_ast/) - Official Rust AST docs
 - [Syn Parser Documentation](https://docs.rs/syn/) - Popular Rust parser library
 
 ### PHP
+
 - [PHP Parser Documentation](https://github.com/nikic/PHP-Parser/tree/master/doc) - Comprehensive PHP AST docs
 - [PHP AST Extension](https://github.com/nikic/php-ast) - Native PHP AST extension
 
 ### General Resources
+
 - [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) - Parser generator tool with AST definitions for many languages
 - [ANTLR](https://www.antlr.org/) - Parser generator with grammar definitions for multiple languages
 - [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) - Includes AST-related specifications

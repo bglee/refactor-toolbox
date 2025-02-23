@@ -23,34 +23,22 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
   const path = pathBuilder(node, parentPath, index);
   const { state, setState } = useNodes(path);
 
-  const renderValue = (
-    value: NodePropData,
-    key: string,
-    index: number,
-  ): JSX.Element => {
+  const renderValue = (value: NodePropData, key: string, index: number): JSX.Element => {
     // Handle null/undefined
     if (value === null || value === undefined) {
       return <span className="hs-accordion__value">EMPTY</span>;
     }
 
     // Handle primitive types
-    if (
-      typeof value === "string" ||
-      typeof value === "number" ||
-      typeof value === "boolean"
-    ) {
-      return (
-        <span className="hs-accordion__value">{JSON.stringify(value)}</span>
-      );
+    if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+      return <span className="hs-accordion__value text-warning">{JSON.stringify(value)}</span>;
     }
 
     // Handle arrays
     if (Array.isArray(value)) {
       return (
         <>
-          <span className="text-green-500 pl-2">
-            {value.length === 0 ? "Array[empty]" : "Array ["}
-          </span>
+          <span className="text-secondary/80 pl-2">{`Array [${value.length}] ${value.length > 0 ? "{" : ""}`}</span>
           {value.length > 0 && (
             <>
               <div className="pl-2">
@@ -64,7 +52,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
                   />
                 ))}
               </div>
-              <div className="text-green-500">{"]"}</div>
+              <div className="text-secondary/80">{"}"}</div>
             </>
           )}
         </>
@@ -86,12 +74,26 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
 
   return (
     <div key={path}>
-      <button
-        className="w-full text-left text-sky-400 text-lg"
-        onClick={() => setState(!state)}
-      >
-        {node.type || "Object"}
-      </button>
+      <div className="flex items-center">
+        <button className="pr-2 text-left text-primary text-lg" onClick={() => setState(!state)}>
+          {node.type || "Object"}{" "}
+        </button>
+        {Object.entries(node).filter(([key]) => !displayKeys.includes(key)).length > 0 && (
+          <div
+            className="tooltip tooltip-bottom hover:cursor-default"
+            data-tip={
+              "[" +
+              Object.entries(node)
+                .filter(([key]) => !displayKeys.includes(key))
+                .map(([key]) => key)
+                .join(", ") +
+              "]"
+            }
+          >
+            <span className="text-xs italic pl-1 text-secondary/30">{`${Object.entries(node).filter(([key]) => !displayKeys.includes(key)).length} hidden properies`}</span>
+          </div>
+        )}
+      </div>
       {state && (
         <div className="w-full text-left pl-3">
           <ul>

@@ -2,18 +2,18 @@ import { ASTNode } from "../../model/AstNode";
 import { ASTTree } from "./ASTTree";
 
 type ASTVisualizerProps = {
-  mainNode: Record<string, ASTNode>;
+  nodes: Record<string, ASTNode>;
   displayKeys: string[];
 };
 
 export const ASTVisualizer: React.FC<ASTVisualizerProps> = ({
-  mainNode,
+  nodes,
   displayKeys,
 }) => {
   return (
     <>
-      {Object.entries(mainNode).map(([key, node]) => (
-        <ASTTree key={key} astNode={node} filteredSearchKeys={displayKeys} />
+      {Object.entries(nodes).map(([key, node]) => (
+        <ASTTree key={key} astNode={node} displayKeys={displayKeys} />
       ))}
     </>
   );

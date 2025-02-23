@@ -2,6 +2,10 @@ const alphabetize = <T>(
   list: T[] | string[],
   key?: keyof T,
 ): T[] | string[] => {
+  if (list.length === 0) {
+    return [];
+  }
+
   if (typeof list[0] === "string") {
     return (list as string[]).sort((a, b) => a.localeCompare(b));
   }

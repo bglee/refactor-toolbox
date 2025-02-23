@@ -9,7 +9,7 @@ function findMatchingTermsInDepth(
 ): Record<string, ASTNode> {
   const terms: Record<string, ASTNode> = {};
 
-  function traverse(node: ASTNode, parentPath: string, index: number) {
+  async function traverse(node: ASTNode, parentPath: string, index: number) {
     const path = pathBuilder(node, parentPath, index);
     // Skip if node is null or not an object
     if (!node || typeof node !== "object") return;
@@ -28,19 +28,21 @@ function findMatchingTermsInDepth(
               filterItem.tag === key && filterItem.term === String(value),
           )
         ) {
-          terms[key] = node;
+          terms[path] = node;
         }
       }
 
       // Recursively traverse arrays and objects
       if (Array.isArray(value)) {
-        value.forEach((item, index) => {
-          if (typeof item === "object" && item !== null) {
-            traverse(item as ASTNode, path, index);
-          }
-        });
+        Promise.resolve(
+          value.map((item, index) => {
+            if (typeof item === "object" && item !== null) {
+              return traverse(item as ASTNode, path, index);
+            }
+          }),
+        );
       } else if (typeof value === "object" && value !== null) {
-        traverse(value as ASTNode, path, 0);
+        await traverse(value as ASTNode, path, 0);
       }
     }
   }
