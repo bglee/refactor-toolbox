@@ -40,11 +40,9 @@ const useFilterBoxInternalState = <T extends string>({
       currentTagSearch === ""
         ? filterKeyOptions
         : filterKeyOptions.filter((filterKeyOption) =>
-            filterKeyOption
-              .toLowerCase()
-              .includes(currentTagSearch.toLowerCase()),
+            filterKeyOption.toLowerCase().includes(currentTagSearch.toLowerCase())
           ),
-    [currentTagSearch, filterKeyOptions],
+    [currentTagSearch, filterKeyOptions]
   );
 
   const termOptionsFiltered = useMemo(() => {
@@ -53,7 +51,7 @@ const useFilterBoxInternalState = <T extends string>({
     return currentTermSearch === ""
       ? termOptionsForCurrentTag
       : termOptionsForCurrentTag?.filter((term) =>
-          term.toLowerCase().includes(currentTermSearch.toLowerCase()),
+          term.toLowerCase().includes(currentTermSearch.toLowerCase())
         );
   }, [filterTermOptions, currentTag, currentTermSearch]);
 
@@ -71,8 +69,7 @@ const useFilterBoxInternalState = <T extends string>({
         case "Tab":
           if (options.length > 0) {
             event.preventDefault();
-            const selectedOption =
-              selectedIndex >= 0 ? options[selectedIndex] : options[0];
+            const selectedOption = selectedIndex >= 0 ? options[selectedIndex] : options[0];
             setCurrentTag(selectedOption as T);
             setCurrentTagSearch("");
             setSelectedIndex(-1);
@@ -84,9 +81,7 @@ const useFilterBoxInternalState = <T extends string>({
           break;
         case "ArrowUp":
           event.preventDefault();
-          setSelectedIndex((prev) =>
-            prev <= 0 ? options.length - 1 : prev - 1,
-          );
+          setSelectedIndex((prev) => (prev <= 0 ? options.length - 1 : prev - 1));
           break;
         case "Enter":
           if (selectedIndex >= 0) {
@@ -113,7 +108,7 @@ const useFilterBoxInternalState = <T extends string>({
       selectedIndex,
       setCurrentTag,
       setCurrentTagSearch,
-    ],
+    ]
   );
 
   const handleOnChangeForTag = useCallback(
@@ -122,7 +117,7 @@ const useFilterBoxInternalState = <T extends string>({
         // Check for exact match first
         const searchValue = event.target.value.slice(0, -1); // Remove the colon
         const exactMatch = filterKeyOptions.find(
-          (key) => key.toLowerCase() === searchValue.toLowerCase(),
+          (key) => key.toLowerCase() === searchValue.toLowerCase()
         );
 
         if (exactMatch) {
@@ -140,22 +135,16 @@ const useFilterBoxInternalState = <T extends string>({
         setCurrentTagSearch(event.target.value);
       }
     },
-    [
-      filterKeyOptions,
-      filterKeyOptionsFiltered,
-      setCurrentTag,
-      setCurrentTagSearch,
-    ],
+    [filterKeyOptions, filterKeyOptionsFiltered, setCurrentTag, setCurrentTagSearch]
   );
 
   const handleClickForTag = useCallback(
-    (filterKey: string) =>
-      (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-        event.preventDefault();
-        setCurrentTag(filterKey as T);
-        setCurrentTagSearch("");
-      },
-    [setCurrentTag, setCurrentTagSearch],
+    (filterKey: string) => (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+      event.preventDefault();
+      setCurrentTag(filterKey as T);
+      setCurrentTagSearch("");
+    },
+    [setCurrentTag, setCurrentTagSearch]
   );
 
   // Modify handleInputKeyDownForTerm similarly
@@ -167,15 +156,11 @@ const useFilterBoxInternalState = <T extends string>({
         case "Tab":
           if (options.length > 0) {
             event.preventDefault();
-            const selectedTerm =
-              selectedIndex >= 0 ? options[selectedIndex] : options[0];
+            const selectedTerm = selectedIndex >= 0 ? options[selectedIndex] : options[0];
             setCurrentTag("");
             setCurrentTermSearch("");
             onChange({
-              tags: [
-                ...filter.tags,
-                { tag: currentTag as T, term: selectedTerm },
-              ],
+              tags: [...filter.tags, { tag: currentTag as T, term: selectedTerm }],
             });
             setSelectedIndex(-1);
           }
@@ -186,29 +171,21 @@ const useFilterBoxInternalState = <T extends string>({
           break;
         case "ArrowUp":
           event.preventDefault();
-          setSelectedIndex((prev) =>
-            prev <= 0 ? options.length - 1 : prev - 1,
-          );
+          setSelectedIndex((prev) => (prev <= 0 ? options.length - 1 : prev - 1));
           break;
         case "Enter":
           if (selectedIndex >= 0) {
             setCurrentTag("");
             setCurrentTermSearch("");
             onChange({
-              tags: [
-                ...filter.tags,
-                { tag: currentTag as T, term: options[selectedIndex] },
-              ],
+              tags: [...filter.tags, { tag: currentTag as T, term: options[selectedIndex] }],
             });
             setSelectedIndex(-1);
           } else if (options.length === 1) {
             setCurrentTag("");
             setCurrentTermSearch("");
             onChange({
-              tags: [
-                ...filter.tags,
-                { tag: currentTag as T, term: options[0] },
-              ],
+              tags: [...filter.tags, { tag: currentTag as T, term: options[0] }],
             });
           }
           break;
@@ -219,21 +196,14 @@ const useFilterBoxInternalState = <T extends string>({
           break;
       }
     },
-    [
-      currentTag,
-      currentTermSearch,
-      filter,
-      onChange,
-      selectedIndex,
-      termOptionsFiltered,
-    ],
+    [currentTag, currentTermSearch, filter, onChange, selectedIndex, termOptionsFiltered]
   );
 
   const handleOnChangeForTerm = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setCurrentTermSearch(event.target.value);
     },
-    [setCurrentTermSearch],
+    [setCurrentTermSearch]
   );
 
   const handleClickForTerm = useCallback(
@@ -244,7 +214,7 @@ const useFilterBoxInternalState = <T extends string>({
         tags: [...filter.tags, { tag: currentTag as T, term }],
       });
     },
-    [currentTag, filter.tags, onChange, setCurrentTag],
+    [currentTag, filter.tags, onChange, setCurrentTag]
   );
 
   const dropdownActive = searchFocused && filterKeyOptionsFiltered.length > 0;
@@ -276,12 +246,7 @@ interface FilterBoxDropdownItemProps {
   selected?: boolean;
 }
 
-const DropdownItem = ({
-  label,
-  value,
-  onClick,
-  selected,
-}: FilterBoxDropdownItemProps) => (
+const DropdownItem = ({ label, value, onClick, selected }: FilterBoxDropdownItemProps) => (
   <li
     className={`py-1 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900 z-10 ${
       selected ? "bg-yellow-50 text-gray-900" : ""
@@ -334,7 +299,10 @@ export const FilterBox = <T extends string>({
             className="badge whitespace-nowrap rounded-md p-2 shadow-sm shadow-primary/40 h-6 mr-3 flex items-center justify-center"
             key={i}
           >
-            <div className="cursor-pointer text-[14px] flex items-center justify-center mr-2 font-bold font-mono text-primary/50">
+            <div
+              className="cursor-pointer text-[14px] flex items-center justify-center mr-2 font-bold font-mono text-primary/50"
+              onClick={() => onChange({ tags: filter.tags.filter((_, index) => index !== i) })}
+            >
               x
             </div>
 
@@ -354,9 +322,7 @@ export const FilterBox = <T extends string>({
           className="w-full bg-base-200/0 focus:outline-none"
           onFocus={() => setSearchFocused(true)}
           onBlur={() => setSearchFocused(false)}
-          onKeyDown={
-            isTagSearch ? handleInputKeyDownForTag : handleInputKeyDownForTerm
-          }
+          onKeyDown={isTagSearch ? handleInputKeyDownForTag : handleInputKeyDownForTerm}
           onChange={isTagSearch ? handleOnChangeForTag : handleOnChangeForTerm}
         />
       </div>
