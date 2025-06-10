@@ -1,11 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
+import { useThemeStore } from "../../store/hooks/useThemeStore";
 
 export const Settings: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme") || "default");
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const { theme, setTheme } = useThemeStore();
 
   const handleThemeChange = (theme: string) => {
     document.documentElement.setAttribute("data-theme", theme);

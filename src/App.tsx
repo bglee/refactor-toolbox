@@ -9,7 +9,7 @@ import { useFilteredASTNodes } from "./hooks/useFilteredASTNodes";
 import { useSearchTerms } from "./hooks/useSearchTerms";
 import { CodeVisualizer } from "./components/code-visulizer/CodeVisualizer";
 import { useSourceFileParser } from "./hooks/useSourceFileParser";
-import { Theme } from "./config/theming";
+import { AppTheme } from "./config/theming";
 
 function App() {
   const { ast, code, setCode } = useSourceFileParser();
@@ -54,7 +54,7 @@ function App() {
       </div>
       <div className="flex flex-row flex-1 overflow-hidden">
         <div className="flex-1 overflow-auto h-full m-1 rounded bg-base-200">
-          <CodeVisualizer code={code.content} language="javascript" theme={Theme.dracula} />
+          <CodeVisualizer code={code.content} language="javascript" theme={AppTheme.dracula} />
         </div>
         <div className="flex-1 overflow-auto h-full p-3 m-1 rounded bg-base-200">
           <div className="flex">

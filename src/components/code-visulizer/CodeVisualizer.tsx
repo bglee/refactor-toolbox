@@ -1,9 +1,8 @@
 import { CodeBlock } from "react-code-blocks";
-import { dracula } from "react-code-blocks";
-import { codeBlockThemeMap, Theme } from "../../config/theming";
+import { codeBlockThemeMap, AppTheme } from "../../config/theming";
 
 type CodeVisualizerProps = {
-  theme: Theme;
+  theme: AppTheme;
   code: string;
   language: string;
 };
