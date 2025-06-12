@@ -2,7 +2,7 @@ import { Store } from "@tanstack/react-store";
 import { RetireveFromBinding } from ".";
 import { useEffect } from "react";
 
-export const useDOMAttributeBinding = <T>(store: Store<T>, key: string): RetireveFromBinding => {
+export const useDOMAttribute = <T>(store: Store<T>, key: string): RetireveFromBinding<T> => {
     useEffect(()=>{
         const unsubscribe = store.subscribe(()=>{
             document.documentElement.setAttribute(key, String(store.state));

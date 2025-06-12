@@ -105,6 +105,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
                   {renderValue(value, key, index)}
                 </li>
               ))}
+             {Object.entries(node).filter(([key]) => displayKeys.includes(key)).length == 0 && <li className="opacity-50 italic">No visible properties to display.</li>}
           </ul>
         </div>
       )}

@@ -10,14 +10,21 @@ import { useSearchTerms } from "./hooks/useSearchTerms";
 import { CodeVisualizer } from "./components/code-visulizer/CodeVisualizer";
 import { useSourceFileParser } from "./hooks/useSourceFileParser";
 import { AppTheme } from "./config/theming";
-import { useBindToLocalStore } from "./store/bindings/useLocalStoreBinding";
+import { useLocalStore } from "./store/bindings/useLocalStore";
 import { settingsStore } from "./store/store";
 import { useBindStore } from "./store/bindings/useRetriveFromBinding";
-import { useDOMAttributeBinding } from "./store/bindings/useDOMAttributeBinding";
+import { useDOMAttribute } from "./store/bindings/useDOMAttribute";
 
 function App() {
 
-   useBindStore(AppTheme.dracula, settingsStore.theme, useBindToLocalStore(settingsStore.theme, "theme"), useDOMAttributeBinding(settingsStore.theme, "data-theme"));
+   useBindStore({
+     defaultState: AppTheme.dracula,
+     store: settingsStore.theme,
+     bindings: [
+       useLocalStore(settingsStore.theme, "theme"),
+       useDOMAttribute(settingsStore.theme, "data-theme")
+     ]
+   });
 
   const { ast, code, setCode } = useSourceFileParser();
   const { filter, updateFilter } = useFilterBoxState();

@@ -8,7 +8,7 @@ import { RetireveFromBinding } from ".";
  * @param key - The key to use for the local storage.
  * @returns A function to retireve the state from the local storage.
  */
-export const useBindToLocalStore = <T>(store: Store<T>, key: string): RetireveFromBinding => {
+export const useLocalStore = <T>(store: Store<T>, key: string): RetireveFromBinding<T> => {
 
  //Subscribe to the store and update the local storage when the store changes.
   useEffect(() => {

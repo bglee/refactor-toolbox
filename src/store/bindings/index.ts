@@ -1,1 +1,1 @@
-export type RetireveFromBinding = <T>()=>T | undefined;
+export type RetireveFromBinding<T> = ()=>T | undefined;
