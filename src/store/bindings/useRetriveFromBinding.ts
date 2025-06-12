@@ -19,7 +19,7 @@ export const useBindStore = <T>({defaultState, store, bindings}: UseBindStorePro
     useEffect(()=>{
         let stateToSet = defaultState;
         for (const retrival of bindings) {
-            const state = retrival<T>();
+            const state = retrival();
             if (state) {
                 stateToSet = state;
                 break;
