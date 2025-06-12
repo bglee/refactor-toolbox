@@ -1,5 +1,6 @@
 import { CodeBlock } from "react-code-blocks";
 import { codeBlockThemeMap, AppTheme } from "../../config/theming";
+import { useThemeStore } from "../../store/hooks/useThemeStore";
 
 type CodeVisualizerProps = {
   theme: AppTheme;
@@ -7,11 +8,14 @@ type CodeVisualizerProps = {
   language: string;
 };
 
-export const CodeVisualizer: React.FC<CodeVisualizerProps> = ({ theme, code, language }) => {
-  const codeBlockTheme = codeBlockThemeMap.get(theme);
+export const CodeVisualizer: React.FC<CodeVisualizerProps> = ({  code, language }) => {
+  const { theme: currentTheme } = useThemeStore();
+  const codeBlockTheme = codeBlockThemeMap.get(currentTheme);
+
+   
 
   if (!codeBlockTheme) {
-    throw new Error(`Theme ${theme} not found`);
+    throw new Error(`Theme ${currentTheme} not found`);
   }
 
   return (

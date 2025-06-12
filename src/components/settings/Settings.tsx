@@ -1,26 +1,13 @@
 import React, { useRef, useEffect, useState } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
 import { useThemeStore } from "../../store/hooks/useThemeStore";
+import { AppTheme, codeBlockThemeMap } from "../../config/theming";
 
 export const Settings: React.FC = () => {
   const [open, setOpen] = React.useState(false);
-  const [currentTheme, setCurrentTheme] = useState(localStorage.getItem("theme") || "default");
   const popoverRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-  const { theme, setTheme } = useThemeStore();
-
-  const handleThemeChange = (theme: string) => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-    setCurrentTheme(theme);
-  };
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      handleThemeChange(savedTheme);
-    }
-  }, []);
+  const { theme: currentTheme, setTheme } = useThemeStore();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -54,69 +41,17 @@ export const Settings: React.FC = () => {
 
           <div className="p-2">
             <div className="grid grid-cols-3 gap-1">
+              {Object.values(AppTheme).filter(value=>codeBlockThemeMap.has(value)).map((theme) => (
               <input
                 type="radio"
                 name="theme-buttons"
                 className="btn theme-controller"
-                aria-label="Default"
-                value="default"
-                onChange={() => handleThemeChange("default")}
-                checked={currentTheme === "default"}
+                aria-label={theme.toString()}
+                value={theme}
+                onChange={() => setTheme(theme as AppTheme)}
+                checked={currentTheme === theme}
               />
-              <input
-                type="radio"
-                name="theme-buttons"
-                className="btn theme-controller"
-                aria-label="Retro"
-                value="retro"
-                onChange={() => handleThemeChange("retro")}
-                checked={currentTheme === "retro"}
-              />
-              <input
-                type="radio"
-                name="theme-buttons"
-                className="btn theme-controller"
-                aria-label="Cyberpunk"
-                value="cyberpunk"
-                onChange={() => handleThemeChange("cyberpunk")}
-                checked={currentTheme === "cyberpunk"}
-              />
-              <input
-                type="radio"
-                name="theme-buttons"
-                className="btn theme-controller"
-                aria-label="Valentine"
-                value="valentine"
-                onChange={() => handleThemeChange("valentine")}
-                checked={currentTheme === "valentine"}
-              />
-              <input
-                type="radio"
-                name="theme-buttons"
-                className="btn theme-controller"
-                aria-label="Aqua"
-                value="aqua"
-                onChange={() => handleThemeChange("aqua")}
-                checked={currentTheme === "aqua"}
-              />
-              <input
-                type="radio"
-                name="theme-buttons"
-                className="btn theme-controller"
-                aria-label="Cupcake"
-                value="cupcake"
-                onChange={() => handleThemeChange("cupcake")}
-                checked={currentTheme === "cupcake"}
-              />
-              <input
-                type="radio"
-                name="theme-buttons"
-                className="btn theme-controller"
-                aria-label="Dracula"
-                value="dracula"
-                onChange={() => handleThemeChange("dracula")}
-                checked={currentTheme === "dracula"}
-              />
+              ))}
             </div>
           </div>
         </div>
