@@ -1,12 +1,11 @@
 import React, { useMemo, useCallback } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
 import { Filter, FilterTerms } from "../../model/filter";
+import { useFilterStore } from "../../store/hooks/useFilterStore";
 
 interface FilterBoxProps<T extends string> {
   filterKeyOptions: T[];
   filterTermOptions: FilterTerms<T>;
-  filter: Filter<T>;
-  onChange: (filterTerms: Filter<T>) => void;
 }
 
 export const useFilterBoxState = <T extends string>() => {
@@ -257,12 +256,13 @@ const DropdownItem = ({ label, value, onClick, selected }: FilterBoxDropdownItem
   </li>
 );
 
-export const FilterBox = <T extends string>({
-  filter,
+export const FilterBox =({
   filterKeyOptions,
   filterTermOptions,
-  onChange,
-}: FilterBoxProps<T>) => {
+}: FilterBoxProps<string>) => {
+
+  const {filter, setFilter} = useFilterStore();
+
   const {
     selectedIndex,
     isTagSearch,
@@ -283,7 +283,7 @@ export const FilterBox = <T extends string>({
     filterKeyOptions,
     filterTermOptions,
     filter,
-    onChange,
+    onChange: setFilter,
   });
 
   return (
@@ -301,7 +301,7 @@ export const FilterBox = <T extends string>({
           >
             <div
               className="cursor-pointer text-[14px] flex items-center justify-center mr-2 font-bold font-mono text-primary/50"
-              onClick={() => onChange({ tags: filter.tags.filter((_, index) => index !== i) })}
+              onClick={() => setFilter({ tags: filter.tags.filter((_, index) => index !== i) })}
             >
               x
             </div>

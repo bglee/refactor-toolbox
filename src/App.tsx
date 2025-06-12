@@ -14,6 +14,7 @@ import { useLocalStore } from "./store/bindings/useLocalStore";
 import { settingsStore } from "./store/store";
 import { useBindStore } from "./store/bindings/useRetriveFromBinding";
 import { useDOMAttribute } from "./store/bindings/useDOMAttribute";
+import { useFilterStore } from "./store/hooks/useFilterStore";
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
    });
 
   const { ast, code, setCode } = useSourceFileParser();
-  const { filter, updateFilter } = useFilterBoxState();
+  const { filter } = useFilterStore();
 
   const [filteredSearchKeys, setFilteredSearchKeys] = useState<string[]>([]);
 
@@ -78,8 +79,6 @@ function App() {
               setFilteredKeys={setFilteredSearchKeys}
             />
             <FilterBox
-              filter={filter}
-              onChange={updateFilter}
               filterKeyOptions={searchKeys}
               filterTermOptions={searchTerms}
             />
