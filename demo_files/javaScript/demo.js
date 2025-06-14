@@ -1,5 +1,5 @@
-// This is a sample file to demonstrate various AST nodes
-// It includes common programming constructs and patterns
+//This is a sample file to demonstrate various AST nodes
+//It includes common programming constructs and patterns for recast parser
 
 // Variable declarations
 const PI = 3.14159;
