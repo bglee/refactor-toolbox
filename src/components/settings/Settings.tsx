@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
-import { useThemeStore } from "../../store/hooks/useThemeStore";
+import { useThemeStore } from "../../store/store-hooks/useThemeStore";
 import { AppTheme, codeBlockThemeMap } from "../../config/theming";
 
 export const Settings: React.FC = () => {

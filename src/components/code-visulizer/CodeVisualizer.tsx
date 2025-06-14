@@ -1,15 +1,11 @@
 import { CodeBlock } from "react-code-blocks";
 import { codeBlockThemeMap, AppTheme } from "../../config/theming";
-import { useThemeStore } from "../../store/hooks/useThemeStore";
+import { useThemeStore } from "../../store/store-hooks/useThemeStore";
+import { useCodeStateStore } from "../../store/store-hooks/useCodeStateStore";
 
-type CodeVisualizerProps = {
-  theme: AppTheme;
-  code: string;
-  language: string;
-};
-
-export const CodeVisualizer: React.FC<CodeVisualizerProps> = ({  code, language }) => {
+export const CodeVisualizer: React.FC = () => {
   const { theme: currentTheme } = useThemeStore();
+  const { codeState } = useCodeStateStore();
   const codeBlockTheme = codeBlockThemeMap.get(currentTheme);
 
    
@@ -19,6 +15,6 @@ export const CodeVisualizer: React.FC<CodeVisualizerProps> = ({  code, language 
   }
 
   return (
-    <CodeBlock text={code} language={language} showLineNumbers={true} theme={codeBlockTheme} />
+    <CodeBlock text={codeState.content} language={codeState.languageName} showLineNumbers={true} theme={codeBlockTheme} />
   );
 };

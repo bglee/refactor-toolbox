@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
-import { isCommonKey } from "../../config/common_keys";
+import { isCommonKey, isDefaultVisible } from "../../config/common_keys";
 import { ListUtils } from "../../utils/ListUtils";
+import { useKeyVisibilityStore } from "../../store/store-hooks/useKeyVisibilityStore";
+import { useSearchTerms } from "../../store/second-order-data-hooks/useSearchTerms";
 
 interface VisibilityButtonProps {
   allKeys: string[];
-  filteredKeys: string[];
-  setFilteredKeys: (newKeys: string[]) => void;
 }
 
 interface VisibilityKeySectionProps {
@@ -36,11 +36,24 @@ const KeyListItem: React.FC<KeyListItemProps> = ({ keyName, checked, onChange })
   </li>
 );
 
-export const VisiblityButton: React.FC<VisibilityButtonProps> = ({
-  allKeys,
-  filteredKeys,
-  setFilteredKeys,
-}) => {
+export const VisiblityButton: React.FC= (
+ 
+) => {
+  const { keyVisibility, setKeyVisibility } = useKeyVisibilityStore();
+
+
+  const searchTerms = useSearchTerms();
+
+  const allKeys = useMemo(
+    //Filter out keys with no search terms
+    () => Object.entries(searchTerms).map(([key]) => key),
+    [searchTerms]
+  );
+
+ 
+  useEffect(() => {
+    setKeyVisibility(allKeys.filter(isDefaultVisible));
+  }, [allKeys]);
   const [open, setOpen] = React.useState(false);
 
   const popoverRef = useRef<HTMLDivElement>(null); // Reference to the popover element
@@ -67,6 +80,7 @@ export const VisiblityButton: React.FC<VisibilityButtonProps> = ({
   const commonKeys = ListUtils.alphabetize(allKeys.filter(isCommonKey));
   const otherKeys = ListUtils.alphabetize(allKeys.filter((key) => !isCommonKey(key)));
 
+
   return (
     <div className="flex items-center relative">
       <button onClick={() => setOpen(!open)} ref={triggerRef} className="flex items-center">
@@ -88,12 +102,12 @@ export const VisiblityButton: React.FC<VisibilityButtonProps> = ({
                 <KeyListItem
                   key={key}
                   keyName={key}
-                  checked={filteredKeys.includes(key)}
+                  checked={keyVisibility.includes(key)}
                   onChange={(checked) => {
                     if (checked) {
-                      setFilteredKeys([...filteredKeys, key]);
+                      setKeyVisibility([...keyVisibility, key]);
                     } else {
-                      setFilteredKeys(filteredKeys.filter((k) => k !== key));
+                      setKeyVisibility(keyVisibility.filter((k) => k !== key));
                     }
                   }}
                 />
@@ -106,12 +120,12 @@ export const VisiblityButton: React.FC<VisibilityButtonProps> = ({
                 <KeyListItem
                   key={key}
                   keyName={key}
-                  checked={filteredKeys.includes(key)}
+                  checked={keyVisibility.includes(key)}
                   onChange={(checked) => {
                     if (checked) {
-                      setFilteredKeys([...filteredKeys, key]);
+                      setKeyVisibility([...keyVisibility, key]);
                     } else {
-                      setFilteredKeys(filteredKeys.filter((k) => k !== key));
+                      setKeyVisibility(keyVisibility.filter((k) => k !== key));
                     }
                   }}
                 />

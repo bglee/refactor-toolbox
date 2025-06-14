@@ -1,10 +1,12 @@
-import { Filter } from "../model/filter";
-import { ASTNode } from "../model/AstNode";
+import { Filter } from "../../model/filter";
+import { ASTNode } from "../../model/AstNode";
 import { useMemo } from "react";
-import { pathBuilder } from "../components/ast-visualizer/ASTNodeContext";
+import { pathBuilder } from "../../components/ast-visualizer/ASTNodeContext";
+import { useFilterStore } from "../store-hooks/useFilterStore";
+import { useSourceFileParser } from "./useSourceFileParser";
 
 // Type for our search index
-type SearchIndex = Map<string, Map<string, ASTNode>>;
+type SearchIndex = Map<string, Map<string, Array<ASTNode>>>;
 
 // Build the search index once when the AST is loaded
 // TODO: Current implementation only supports top-level property searches.
@@ -34,7 +36,11 @@ function buildSearchIndex(node: ASTNode): SearchIndex {
           }
 
           // Add the value to the key's map
-          searchIndex.get(key)!.set(strValue, node);
+          const valueMap = searchIndex.get(key)!;
+          if (!valueMap.has(strValue)) {
+            valueMap.set(strValue, []);
+          }
+          valueMap.get(strValue)!.push(node);
         } else if (valueType === "object") {
           // Handle arrays and objects
           if (Array.isArray(value)) {
@@ -68,6 +74,7 @@ function findMatchingTermsInDepth(
     return { root: node };
   }
 
+  console.time('Filtering AST Nodes');
   // Use the search index to find matching nodes
   for (const { tag, term } of filter.tags) {
     const valueMap = searchIndex.get(tag);
@@ -75,31 +82,37 @@ function findMatchingTermsInDepth(
       const matchingNode = valueMap.get(term);
       if (matchingNode) {
         // Use the node's path as the key
-        const path = pathBuilder(matchingNode, "root", 0);
-        terms[path] = matchingNode;
+        let index = 0;
+        for (const node of matchingNode) {
+          const path = pathBuilder(node, "root", index);
+          terms[path] = node;
+          index++;
+        }
       }
     }
   }
-
+  console.timeEnd('Filtering AST Nodes');
   return terms;
 }
 
-export const useFilteredASTNodes = <T extends string>(
-  mainNode: ASTNode | null,
-  filter: Filter<T>
+export const useFilteredASTNodes = (
 ): Record<string, ASTNode> => {
+  const { filter } = useFilterStore();
+  const { ast } = useSourceFileParser();
+
+
   // Build the search index once when the AST changes
   const searchIndex = useMemo(() => {
-    if (!mainNode) return new Map();
-    return buildSearchIndex(mainNode);
-  }, [mainNode]);
+    if (!ast) return new Map();
+    return buildSearchIndex(ast);
+  }, [ast]);
 
   const filteredASTNodes = useMemo(() => {
-    if (mainNode === null) return {} as Record<string, ASTNode>;
-    if (filter.tags.length === 0) return { root: mainNode } as Record<string, ASTNode>;
+    if (ast === null) return {} as Record<string, ASTNode>;
+    if (filter.tags.length === 0) return { root: ast } as Record<string, ASTNode>;
 
-    return findMatchingTermsInDepth(mainNode, filter, searchIndex);
-  }, [mainNode, filter, searchIndex]);
+    return findMatchingTermsInDepth(ast, filter, searchIndex);
+  }, [ast, filter, searchIndex]);
 
   return filteredASTNodes;
 };

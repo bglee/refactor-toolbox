@@ -1,19 +1,16 @@
-import { ASTNode } from "../../model/AstNode";
+import { useFilteredASTNodes } from "../../store/second-order-data-hooks/useFilteredASTNodes";
+import { useKeyVisibilityStore } from "../../store/store-hooks/useKeyVisibilityStore";
 import { ASTTree } from "./ASTTree";
 
-type ASTVisualizerProps = {
-  nodes: Record<string, ASTNode>;
-  displayKeys: string[];
-};
-
-export const ASTVisualizer: React.FC<ASTVisualizerProps> = ({
-  nodes,
-  displayKeys,
+export const ASTVisualizer: React.FC = ({
 }) => {
+  const { keyVisibility } = useKeyVisibilityStore();
+  const filteredASTNodes = useFilteredASTNodes();
+
   return (
     <>
-      {Object.entries(nodes).map(([key, node]) => (
-        <ASTTree key={key} astNode={node} displayKeys={displayKeys} />
+      {Object.entries(filteredASTNodes).map(([key, node]) => (
+        <ASTTree key={key} astNode={node} displayKeys={keyVisibility} />
       ))}
     </>
   );

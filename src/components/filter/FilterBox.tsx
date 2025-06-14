@@ -1,10 +1,10 @@
 import React, { useMemo, useCallback } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
 import { Filter, FilterTerms } from "../../model/filter";
-import { useFilterStore } from "../../store/hooks/useFilterStore";
+import { useFilterStore } from "../../store/store-hooks/useFilterStore";
+import { useSearchTerms } from "../../store/second-order-data-hooks/useSearchTerms";
 
 interface FilterBoxProps<T extends string> {
-  filterKeyOptions: T[];
   filterTermOptions: FilterTerms<T>;
 }
 
@@ -256,10 +256,19 @@ const DropdownItem = ({ label, value, onClick, selected }: FilterBoxDropdownItem
   </li>
 );
 
-export const FilterBox =({
-  filterKeyOptions,
-  filterTermOptions,
-}: FilterBoxProps<string>) => {
+export const FilterBox =() => {
+
+  const filterTermOptions = useSearchTerms();
+
+  const filterKeyOptions = useMemo(
+    //Filter out keys with no search terms
+    () =>
+      Object.entries(filterTermOptions)
+        .filter(([_key, value]) => value.length > 0)
+        .map(([key]) => key),
+    [filterTermOptions]
+  );
+
 
   const {filter, setFilter} = useFilterStore();
 

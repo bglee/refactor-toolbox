@@ -1,6 +1,8 @@
 import { ASTNode } from "../../model/AstNode";
+import { useContextMenuStore } from "../../store/store-hooks/useContextMenuStore";
 import { ASTNodeProvider, useASTNodeState } from "./ASTNodeContext";
 import ASTNodeDisplay from "./ASTNodeDisplay";
+import { ASTContextMenu } from "./ASTContextMenu";
 
 type ASTTreeProps = {
   astNode: ASTNode;
@@ -9,10 +11,15 @@ type ASTTreeProps = {
 
 export const ASTTree: React.FC<ASTTreeProps> = ({ astNode, displayKeys }) => {
   const astNodeState = useASTNodeState();
-
   return (
+    <>
     <ASTNodeProvider state={astNodeState}>
       <ASTNodeDisplay node={astNode} displayKeys={displayKeys} />
-    </ASTNodeProvider>
+    </ASTNodeProvider>  
+        <ASTContextMenu
+ 
+        />
+      
+    </>
   );
 };

@@ -1,6 +1,9 @@
 import React from "react";
 import { pathBuilder, useNodes } from "./ASTNodeContext";
 import { ASTNode, NodePropData } from "../../model/AstNode";
+import { MaterialIcon } from "../common/MaterialIcon";
+import { ASTContextMenu } from "./ASTContextMenu";
+import { useContextMenuStore } from "../../store/store-hooks/useContextMenuStore";
 
 interface ASTNodeDisplayProps {
   displayKeys: string[];
@@ -14,6 +17,8 @@ interface ASTNodeDisplayProps {
  * This component is used to render the AST nodes.
  * It takes a node object as a prop and renders it.
  */
+
+// TODO: Consider using windowing/virtualization (e.g., react-window) to optimize rendering large numbers of AST nodes and improve performance. 
 const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
   displayKeys,
   node,
@@ -22,6 +27,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
 }) => {
   const path = pathBuilder(node, parentPath, index);
   const { state, setState } = useNodes(path);
+  const { contextMenu, setContextMenu } = useContextMenuStore();
 
   const renderValue = (value: NodePropData, key: string, index: number): JSX.Element => {
     // Handle null/undefined
@@ -72,10 +78,22 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
     );
   };
 
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault();
+    setContextMenu({ x: event.clientX, y: event.clientY, nodeId: path });
+  };
+
   return (
     <div key={path}>
       <div className="flex items-center">
-        <button className="pr-2 text-left text-primary text-lg" onClick={() => setState(!state)}>
+       
+        <button 
+          className="pr-2 text-left text-primary text-lg" 
+          onClick={() => 
+              setState(!state)
+           }
+          onContextMenu={handleContextMenu}
+        >
           {node.type || "Object"}{" "}
         </button>
         {Object.entries(node).filter(([key]) => !displayKeys.includes(key)).length > 0 && (
@@ -112,5 +130,5 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
     </div>
   );
 };
-
 export default ASTNodeDisplay;
+

@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { languages } from "../../parsers/_parser_constants";
+import { useCodeStateStore } from "../../store/store-hooks/useCodeStateStore";
 
-interface FileSelectProps {
-  onChange: (content: string, languageName: string, parserId: string) => void;
-}
-
-export const FileSelect: React.FC<FileSelectProps> = ({ onChange }) => {
+export const FileSelect: React.FC = () => {
+  const { setCodeState } = useCodeStateStore();
   const [content, setContent] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [selectedParserId, setSelectedParserId] = useState<string | undefined>(undefined);
@@ -42,7 +40,7 @@ export const FileSelect: React.FC<FileSelectProps> = ({ onChange }) => {
 
   useEffect(() => {
     if (content && detectedLanguage && selectedParserId) {
-      onChange(content, detectedLanguage.languageName, selectedParserId);
+      setCodeState({ content, languageName: detectedLanguage.languageName, parserId: selectedParserId });
     }
   }, [content, detectedLanguage, selectedParserId]);
 

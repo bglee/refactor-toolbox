@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { ASTNode } from "../model/AstNode";
+import { ASTNode } from "../../model/AstNode";
+import { useSourceFileParser } from "./useSourceFileParser";
 
 function getSearchTermsInDepth(node: ASTNode): Record<string, string[]> {
   // Pre-allocate a single object to store results
@@ -56,9 +57,10 @@ function getSearchTermsInDepth(node: ASTNode): Record<string, string[]> {
   return terms;
 }
 
-export function useSearchTerms(astNode: ASTNode | null) {
+export function useSearchTerms() {
+  const { ast } = useSourceFileParser();
   return useMemo(
-    () => (astNode ? getSearchTermsInDepth(astNode) : {}),
-    [astNode],
+    () => (ast ? getSearchTermsInDepth(ast) : {}),
+    [ast],  
   );
 }
