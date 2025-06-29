@@ -1,5 +1,5 @@
 export interface CodeState {
-    languageName: string;
-    parserId: string;
-    content: string;
-  }
+  languageName: string;
+  parserId: string;
+  content: string;
+}

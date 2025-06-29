@@ -28,20 +28,18 @@ const VisiblityKeySection: React.FC<VisibilityKeySectionProps> = ({ title, child
 );
 
 const KeyListItem: React.FC<KeyListItemProps> = ({ keyName, checked, onChange }) => (
-  
   <li className="whitespace-nowrap">
-    <label className="flex items-center gap-1 overflow-hidden" >
+    <label className="flex items-center gap-1 overflow-hidden">
       <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-      <span title={keyName} className="truncate block max-w-[120px]">{keyName}</span>
+      <span title={keyName} className="truncate block max-w-[120px]">
+        {keyName}
+      </span>
     </label>
   </li>
 );
 
-export const VisiblityButton: React.FC= (
- 
-) => {
+export const VisiblityButton: React.FC = () => {
   const { keyVisibility, setKeyVisibility } = useKeyVisibilityStore();
-
 
   const searchTerms = useSearchTerms();
 
@@ -51,7 +49,6 @@ export const VisiblityButton: React.FC= (
     [searchTerms]
   );
 
- 
   useEffect(() => {
     setKeyVisibility(allKeys.filter(isDefaultVisible));
   }, [allKeys]);
@@ -80,7 +77,6 @@ export const VisiblityButton: React.FC= (
 
   const commonKeys = ListUtils.alphabetize(allKeys.filter(isCommonKey));
   const otherKeys = ListUtils.alphabetize(allKeys.filter((key) => !isCommonKey(key)));
-
 
   return (
     <div className="flex items-center relative">

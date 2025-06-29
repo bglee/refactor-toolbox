@@ -1,4 +1,19 @@
-import { a11yDark, dracula, github, a11yLight, anOldHope, androidstudio, atomOneDark, atomOneLight, monokai, nord, solarizedDark, solarizedLight, tomorrowNight, vs2015 } from "react-code-blocks";
+import {
+  a11yDark,
+  dracula,
+  github,
+  a11yLight,
+  anOldHope,
+  androidstudio,
+  atomOneDark,
+  atomOneLight,
+  monokai,
+  nord,
+  solarizedDark,
+  solarizedLight,
+  tomorrowNight,
+  vs2015,
+} from "react-code-blocks";
 import { CodeBlockTheme } from "react-code-blocks/dist/types";
 
 // All available code block themes
@@ -61,5 +76,5 @@ export const codeBlockThemeMap = new Map<AppTheme, CodeBlockTheme>([
   [AppTheme.solarizedDark, solarizedDark],
   [AppTheme.solarizedLight, solarizedLight],
   [AppTheme.tomorrowNight, tomorrowNight],
-  [AppTheme.vs2015, vs2015]
+  [AppTheme.vs2015, vs2015],
 ]);

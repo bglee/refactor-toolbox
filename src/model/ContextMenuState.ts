@@ -1,5 +1,5 @@
 export interface ContextMenuState {
-    x: number;
-    y: number;
-    nodeId: string;
-  }
+  x: number;
+  y: number;
+  nodeId: string;
+}

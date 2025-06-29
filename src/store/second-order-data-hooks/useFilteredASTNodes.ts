@@ -74,7 +74,7 @@ function findMatchingTermsInDepth(
     return { root: node };
   }
 
-  console.time('Filtering AST Nodes');
+  console.time("Filtering AST Nodes");
   // Use the search index to find matching nodes
   for (const { tag, term } of filter.tags) {
     const valueMap = searchIndex.get(tag);
@@ -91,15 +91,13 @@ function findMatchingTermsInDepth(
       }
     }
   }
-  console.timeEnd('Filtering AST Nodes');
+  console.timeEnd("Filtering AST Nodes");
   return terms;
 }
 
-export const useFilteredASTNodes = (
-): Record<string, ASTNode> => {
+export const useFilteredASTNodes = (): Record<string, ASTNode> => {
   const { filter } = useFilterStore();
   const { ast } = useSourceFileParser();
-
 
   // Build the search index once when the AST changes
   const searchIndex = useMemo(() => {

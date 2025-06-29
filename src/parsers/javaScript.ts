@@ -1,7 +1,6 @@
 import { ASTNode } from "../model/AstNode";
 import { LanguageInterface, ParserInterface } from "./_parser_interface";
 
-
 function insertTreeKey(node: any): any {
   if (!node || typeof node !== "object") return node;
 
@@ -48,7 +47,7 @@ class AcornParser implements ParserInterface {
   parserId = "acorn";
   parse(code: string): ASTNode | null {
     const acorn = require("acorn");
-    const ast = acorn.parse(code, { sourceType: 'module' });
+    const ast = acorn.parse(code, { sourceType: "module" });
     return insertTreeKey(ast);
   }
 }
@@ -57,7 +56,7 @@ class EsprimaParser implements ParserInterface {
   parserId = "esprima";
   parse(code: string): ASTNode | null {
     const esprima = require("esprima");
-    const ast = esprima.parse(code, { sourceType: 'module' });
+    const ast = esprima.parse(code, { sourceType: "module" });
     return insertTreeKey(ast);
   }
 }

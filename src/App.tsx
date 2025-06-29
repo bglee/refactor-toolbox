@@ -11,16 +11,14 @@ import { useBindStore } from "./store/bindings/useRetriveFromBinding";
 import { useDOMAttribute } from "./store/bindings/useDOMAttribute";
 
 function App() {
-
-   useBindStore({
-     defaultState: AppTheme.dracula,
-     store: settingsStore.theme,
-     bindings: [
-       useLocalStore(settingsStore.theme, "theme"),
-       useDOMAttribute(settingsStore.theme, "data-theme")
-     ]
-   });
-
+  useBindStore({
+    defaultState: AppTheme.dracula,
+    store: settingsStore.theme,
+    bindings: [
+      useLocalStore(settingsStore.theme, "theme"),
+      useDOMAttribute(settingsStore.theme, "data-theme"),
+    ],
+  });
 
   return (
     <div className="flex flex-col h-screen bg-black">
@@ -28,18 +26,18 @@ function App() {
         <NavBar />
       </div>
       <div className="flex-1/4 m-1 p-2 rounded bg-base-200">
-        <FileSelect/>
+        <FileSelect />
       </div>
       <div className="flex flex-row flex-1 overflow-hidden">
         <div className="flex-1 overflow-auto h-full m-1 rounded bg-base-200">
-          <CodeVisualizer/>
+          <CodeVisualizer />
         </div>
         <div className="flex-1 overflow-auto h-full p-3 m-1 rounded bg-base-200">
           <div className="flex">
-            <VisiblityButton/>
-            <FilterBox/>
+            <VisiblityButton />
+            <FilterBox />
           </div>
-          <ASTVisualizer/>
+          <ASTVisualizer />
         </div>
       </div>
     </div>

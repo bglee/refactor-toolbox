@@ -1,8 +1,6 @@
 import React from "react";
 import { pathBuilder, useNodes } from "./ASTNodeContext";
 import { ASTNode, NodePropData } from "../../model/AstNode";
-import { MaterialIcon } from "../common/MaterialIcon";
-import { ASTContextMenu } from "./ASTContextMenu";
 import { useContextMenuStore } from "../../store/store-hooks/useContextMenuStore";
 import { useKeyVisibilityStore } from "../../store/store-hooks/useKeyVisibilityStore";
 
@@ -19,7 +17,7 @@ interface ASTNodeDisplayProps {
  * It takes a node object as a prop and renders it.
  */
 
-// TODO: Consider using windowing/virtualization (e.g., react-window) to optimize rendering large numbers of AST nodes and improve performance. 
+// TODO: Consider using windowing/virtualization (e.g., react-window) to optimize rendering large numbers of AST nodes and improve performance.
 const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
   displayKeys,
   node,
@@ -29,7 +27,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
   const path = pathBuilder(node, parentPath, index);
   const { state, setState } = useNodes(path);
   const { setContextMenu } = useContextMenuStore();
-  const { setKeyVisibility } = useKeyVisibilityStore(); 
+  const { setKeyVisibility } = useKeyVisibilityStore();
   const renderValue = (value: NodePropData, key: string, index: number): JSX.Element => {
     // Handle null/undefined
     if (value === null || value === undefined) {
@@ -50,7 +48,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
             <>
               <div className="pl-2">
                 {value.map((item, idx) => (
-                   <ASTNodeDisplay
+                  <ASTNodeDisplay
                     displayKeys={displayKeys}
                     node={item as ASTNode}
                     key={idx}
@@ -75,8 +73,8 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
           parentPath={path}
           index={index}
         />
-      </div>)
-      
+      </div>
+    );
   };
 
   const handleContextMenu = (event: React.MouseEvent) => {
@@ -87,34 +85,42 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
   return (
     <div key={path}>
       <div className="flex items-center">
-       
-        <button 
-          className="pr-2 text-left text-primary text-lg" 
-          onClick={() => 
-              setState(!state)
-           }
+        <button
+          className="pr-2 text-left text-primary text-lg"
+          onClick={() => setState(!state)}
           onContextMenu={handleContextMenu}
         >
           {node.tree_key || "Object"}{" "}
         </button>
         {Object.entries(node).filter(([key]) => !displayKeys.includes(key)).length > 0 && (
           <>
-          <div
-            className="tooltip tooltip-bottom hover:cursor-default"
-            data-tip={
-              "[" +
-              Object.entries(node)
-                .filter(([key]) => !displayKeys.includes(key))
-                .map(([key]) => key)
-                .join(", ") +
-              "]"
-            }
-          >
-            <span className="text-xs italic pl-1 text-secondary/30">{`${Object.entries(node).filter(([key]) => !displayKeys.includes(key)).length} hidden properies`}</span>
-          </div>
-          <button className="text-sm underline italic pl-1 text-secondary/30" onClick={() => setKeyVisibility([...displayKeys, ...Object.entries(node).filter(([key]) => !displayKeys.includes(key)).map(([key]) => key)])}>Show all</button>
+            <div
+              className="tooltip tooltip-bottom hover:cursor-default"
+              data-tip={
+                "[" +
+                Object.entries(node)
+                  .filter(([key]) => !displayKeys.includes(key))
+                  .map(([key]) => key)
+                  .join(", ") +
+                "]"
+              }
+            >
+              <span className="text-xs italic pl-1 text-secondary/30">{`${Object.entries(node).filter(([key]) => !displayKeys.includes(key)).length} hidden properies`}</span>
+            </div>
+            <button
+              className="text-sm underline italic pl-1 text-secondary/30"
+              onClick={() =>
+                setKeyVisibility([
+                  ...displayKeys,
+                  ...Object.entries(node)
+                    .filter(([key]) => !displayKeys.includes(key))
+                    .map(([key]) => key),
+                ])
+              }
+            >
+              Show all
+            </button>
           </>
-          
         )}
       </div>
       {state && (
@@ -128,7 +134,9 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
                   {renderValue(value, key, index)}
                 </li>
               ))}
-             {Object.entries(node).filter(([key]) => displayKeys.includes(key)).length == 0 && <li className="opacity-50 italic">No visible properties to display.</li>}
+            {Object.entries(node).filter(([key]) => displayKeys.includes(key)).length == 0 && (
+              <li className="opacity-50 italic">No visible properties to display.</li>
+            )}
           </ul>
         </div>
       )}
@@ -136,4 +144,3 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
   );
 };
 export default ASTNodeDisplay;
-

@@ -9,8 +9,7 @@ import { RetireveFromBinding } from ".";
  * @returns A function to retireve the state from the local storage.
  */
 export const useLocalStore = <T>(store: Store<T>, key: string): RetireveFromBinding<T> => {
-
- //Subscribe to the store and update the local storage when the store changes.
+  //Subscribe to the store and update the local storage when the store changes.
   useEffect(() => {
     const unsubscribe = store.subscribe(() => {
       localStorage.setItem(key, JSON.stringify(store.state));
@@ -22,7 +21,7 @@ export const useLocalStore = <T>(store: Store<T>, key: string): RetireveFromBind
   const retireveFromBiding = useCallback(() => {
     const storedState = localStorage.getItem(key);
     return storedState ? JSON.parse(storedState) : undefined;
-  }, [key, store]);  
+  }, [key, store]);
 
   return retireveFromBiding;
 };

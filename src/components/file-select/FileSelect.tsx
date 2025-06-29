@@ -40,7 +40,11 @@ export const FileSelect: React.FC = () => {
 
   useEffect(() => {
     if (content && detectedLanguage && selectedParserId) {
-      setCodeState({ content, languageName: detectedLanguage.languageName, parserId: selectedParserId });
+      setCodeState({
+        content,
+        languageName: detectedLanguage.languageName,
+        parserId: selectedParserId,
+      });
     }
   }, [content, detectedLanguage, selectedParserId]);
 
@@ -70,7 +74,9 @@ export const FileSelect: React.FC = () => {
                 onChange={(e) => setSelectedParserId(e.target.value)}
               >
                 {parserOptions?.map((parser, index) => (
-                  <option key={index} value={parser.value}>{parser.label}</option>
+                  <option key={index} value={parser.value}>
+                    {parser.label}
+                  </option>
                 ))}
               </select>
             </div>

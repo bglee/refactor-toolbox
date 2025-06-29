@@ -3,15 +3,17 @@ import { useEffect, useState } from "react";
 import { Filter } from "../../model/filter";
 
 export const useFilterStore = () => {
+  const [filter, setFilter] = useState(DEFAULT_FILTER);
 
-    const [filter, setFilter] = useState(DEFAULT_FILTER);
+  useEffect(() => {
+    const unsubscribe = filterStore.subscribe(() => {
+      setFilter(filterStore.state);
+    });
+    return () => unsubscribe();
+  }, []);
 
-    useEffect(()=>{
-        const unsubscribe = filterStore.subscribe(()=>{
-            setFilter(filterStore.state);
-        });
-        return () => unsubscribe();
-    },[]);
-
-    return {filter, setFilter: (filter: Filter<string>)=>filterStore.setState(()=>filter)} as const;
-}
+  return {
+    filter,
+    setFilter: (filter: Filter<string>) => filterStore.setState(() => filter),
+  } as const;
+};

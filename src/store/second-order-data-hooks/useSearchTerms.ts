@@ -23,11 +23,7 @@ function getSearchTermsInDepth(node: ASTNode): Record<string, string[]> {
 
         const valueType = typeof value;
 
-        if (
-          valueType === "string" ||
-          valueType === "number" ||
-          valueType === "boolean"
-        ) {
+        if (valueType === "string" || valueType === "number" || valueType === "boolean") {
           terms[key].push(String(value));
         } else if (valueType === "object") {
           // Handle arrays and objects
@@ -59,8 +55,5 @@ function getSearchTermsInDepth(node: ASTNode): Record<string, string[]> {
 
 export function useSearchTerms() {
   const { ast } = useSourceFileParser();
-  return useMemo(
-    () => (ast ? getSearchTermsInDepth(ast) : {}),
-    [ast],  
-  );
+  return useMemo(() => (ast ? getSearchTermsInDepth(ast) : {}), [ast]);
 }

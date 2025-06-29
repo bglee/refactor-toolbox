@@ -8,13 +8,16 @@ export const CodeVisualizer: React.FC = () => {
   const { codeState } = useCodeStateStore();
   const codeBlockTheme = codeBlockThemeMap.get(currentTheme);
 
-   
-
   if (!codeBlockTheme) {
     throw new Error(`Theme ${currentTheme} not found`);
   }
 
   return (
-    <CodeBlock text={codeState.content} language={codeState.languageName} showLineNumbers={true} theme={codeBlockTheme} />
+    <CodeBlock
+      text={codeState.content}
+      language={codeState.languageName}
+      showLineNumbers={true}
+      theme={codeBlockTheme}
+    />
   );
 };

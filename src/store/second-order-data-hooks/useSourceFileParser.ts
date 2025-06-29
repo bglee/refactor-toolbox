@@ -22,17 +22,16 @@ export const useSourceFileParser = () => {
     throw new Error(`Unsupported language: ${codeState.languageName}`);
   }
 
-  const ast = useMemo(
-    () => {
-      try {
-        return codeState.parserId ? parser?.parse(codeState.content, codeState.parserId) || null : null;
-      } catch (e) {
-        console.error(e);
-        return null;
-      }
-    },
-    [codeState.content, codeState.parserId, parser]
-  );
+  const ast = useMemo(() => {
+    try {
+      return codeState.parserId
+        ? parser?.parse(codeState.content, codeState.parserId) || null
+        : null;
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  }, [codeState.content, codeState.parserId, parser]);
 
   return {
     ast,

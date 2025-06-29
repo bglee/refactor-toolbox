@@ -4,11 +4,7 @@ interface NonNodeObject {
   [key: string]: BasicTypes;
 }
 
-export type NodePropData =
-  | BasicTypes
-  | ASTNode
-  | NodePropData[]
-  | NonNodeObject;
+export type NodePropData = BasicTypes | ASTNode | NodePropData[] | NonNodeObject;
 
 export interface ASTNode {
   tree_key?: string;

@@ -41,17 +41,19 @@ export const Settings: React.FC = () => {
 
           <div className="p-2">
             <div className="grid grid-cols-3 gap-1">
-              {Object.values(AppTheme).filter(value=>codeBlockThemeMap.has(value)).map((theme) => (
-              <input
-                type="radio"
-                name="theme-buttons"
-                className="btn theme-controller"
-                aria-label={theme.toString()}
-                value={theme}
-                onChange={() => setTheme(theme as AppTheme)}
-                checked={currentTheme === theme}
-              />
-              ))}
+              {Object.values(AppTheme)
+                .filter((value) => codeBlockThemeMap.has(value))
+                .map((theme) => (
+                  <input
+                    type="radio"
+                    name="theme-buttons"
+                    className="btn theme-controller"
+                    aria-label={theme.toString()}
+                    value={theme}
+                    onChange={() => setTheme(theme as AppTheme)}
+                    checked={currentTheme === theme}
+                  />
+                ))}
             </div>
           </div>
         </div>

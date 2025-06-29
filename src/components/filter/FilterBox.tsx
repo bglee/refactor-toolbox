@@ -256,8 +256,7 @@ const DropdownItem = ({ label, value, onClick, selected }: FilterBoxDropdownItem
   </li>
 );
 
-export const FilterBox =() => {
-
+export const FilterBox = () => {
   const filterTermOptions = useSearchTerms();
 
   const filterKeyOptions = useMemo(
@@ -269,8 +268,7 @@ export const FilterBox =() => {
     [filterTermOptions]
   );
 
-
-  const {filter, setFilter} = useFilterStore();
+  const { filter, setFilter } = useFilterStore();
 
   const {
     selectedIndex,

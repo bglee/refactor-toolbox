@@ -14,7 +14,7 @@ export const settingsStore = {
 };
 
 //Filter Store.
-export const DEFAULT_FILTER: Filter<string> = {tags: []};
+export const DEFAULT_FILTER: Filter<string> = { tags: [] };
 
 export const filterStore = new Store<Filter<string>>(DEFAULT_FILTER);
 
@@ -31,7 +31,6 @@ export const DEFAULT_CODE_STATE: CodeState = {
 };
 
 export const codeStateStore = new Store<CodeState>(DEFAULT_CODE_STATE);
-
 
 const DEFAULT_CONTEXT_MENU: ContextMenuState | null = null;
 

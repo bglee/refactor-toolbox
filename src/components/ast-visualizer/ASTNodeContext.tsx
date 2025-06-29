@@ -1,9 +1,4 @@
-import React, {
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { PropsWithChildren, useCallback, useMemo, useState } from "react";
 import { ASTNode } from "../../model/AstNode";
 const defaultState = false;
 export interface ASTNodeContextType {
@@ -20,17 +15,13 @@ export const useNodes = (nodeKey: string) => {
   const { nodeState, setNodeState } = React.useContext(ASTNodeContext);
 
   const setState = useCallback(
-    (newState: boolean) =>
-      setNodeState(new Map(nodeState).set(nodeKey, newState)),
-    [nodeKey, nodeState, setNodeState],
+    (newState: boolean) => setNodeState(new Map(nodeState).set(nodeKey, newState)),
+    [nodeKey, nodeState, setNodeState]
   );
 
   const state = useMemo(
-    () =>
-      nodeState.get(nodeKey) === undefined
-        ? defaultState
-        : nodeState.get(nodeKey),
-    [nodeKey, nodeState],
+    () => (nodeState.get(nodeKey) === undefined ? defaultState : nodeState.get(nodeKey)),
+    [nodeKey, nodeState]
   );
   return { state, setState };
 };
@@ -48,11 +39,6 @@ interface ASTNodeProviderProps extends PropsWithChildren {
   state: ASTNodeContextType;
 }
 
-export const ASTNodeProvider: React.FC<ASTNodeProviderProps> = ({
-  children,
-  state,
-}) => {
-  return (
-    <ASTNodeContext.Provider value={state}>{children}</ASTNodeContext.Provider>
-  );
+export const ASTNodeProvider: React.FC<ASTNodeProviderProps> = ({ children, state }) => {
+  return <ASTNodeContext.Provider value={state}>{children}</ASTNodeContext.Provider>;
 };

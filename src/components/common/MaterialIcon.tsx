@@ -5,7 +5,6 @@ interface MaterialIconProps {
   className?: string;
 }
 
-export const MaterialIcon: React.FC<MaterialIconProps> = ({
-  name,
-  className = "",
-}) => <span className={`material-symbols-sharp ${className}`}>{name}</span>;
+export const MaterialIcon: React.FC<MaterialIconProps> = ({ name, className = "" }) => (
+  <span className={`material-symbols-sharp ${className}`}>{name}</span>
+);

@@ -1,7 +1,4 @@
-const alphabetize = <T>(
-  list: T[] | string[],
-  key?: keyof T,
-): T[] | string[] => {
+const alphabetize = <T>(list: T[] | string[], key?: keyof T): T[] | string[] => {
   if (list.length === 0) {
     return [];
   }
