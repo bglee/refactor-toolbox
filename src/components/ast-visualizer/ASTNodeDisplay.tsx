@@ -49,13 +49,13 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
             <>
               <div className="pl-2">
                 {value.map((item, idx) => (
-                  item !== null && typeof item === "object" && "type" in item ? <ASTNodeDisplay
+                   <ASTNodeDisplay
                     displayKeys={displayKeys}
                     node={item as ASTNode}
                     key={idx}
                     parentPath={path}
                     index={idx}
-                  /> : <span className="hs-accordion__value">{JSON.stringify(item)}</span>
+                  />
                 ))}
               </div>
               <div className="text-secondary/80">{"}"}</div>
@@ -66,7 +66,6 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
     }
 
     // Handle objects/nodes
-    if("type" in value) {
     return (
       <div className="pl-2">
         <ASTNodeDisplay
@@ -76,8 +75,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
           index={index}
         />
       </div>)
-      }
-      return <span className="hs-accordion__value">{JSON.stringify(value)}</span>;
+      
   };
 
   const handleContextMenu = (event: React.MouseEvent) => {
