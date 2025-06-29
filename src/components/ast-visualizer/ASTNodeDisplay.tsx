@@ -4,6 +4,7 @@ import { ASTNode, NodePropData } from "../../model/AstNode";
 import { MaterialIcon } from "../common/MaterialIcon";
 import { ASTContextMenu } from "./ASTContextMenu";
 import { useContextMenuStore } from "../../store/store-hooks/useContextMenuStore";
+import { useKeyVisibilityStore } from "../../store/store-hooks/useKeyVisibilityStore";
 
 interface ASTNodeDisplayProps {
   displayKeys: string[];
@@ -28,7 +29,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
   const path = pathBuilder(node, parentPath, index);
   const { state, setState } = useNodes(path);
   const { setContextMenu } = useContextMenuStore();
-
+  const { setKeyVisibility } = useKeyVisibilityStore(); 
   const renderValue = (value: NodePropData, key: string, index: number): JSX.Element => {
     // Handle null/undefined
     if (value === null || value === undefined) {
@@ -97,6 +98,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
           {node.tree_key || "Object"}{" "}
         </button>
         {Object.entries(node).filter(([key]) => !displayKeys.includes(key)).length > 0 && (
+          <>
           <div
             className="tooltip tooltip-bottom hover:cursor-default"
             data-tip={
@@ -110,6 +112,9 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
           >
             <span className="text-xs italic pl-1 text-secondary/30">{`${Object.entries(node).filter(([key]) => !displayKeys.includes(key)).length} hidden properies`}</span>
           </div>
+          <button className="text-sm underline italic pl-1 text-secondary/30" onClick={() => setKeyVisibility([...displayKeys, ...Object.entries(node).filter(([key]) => !displayKeys.includes(key)).map(([key]) => key)])}>Show all</button>
+          </>
+          
         )}
       </div>
       {state && (
