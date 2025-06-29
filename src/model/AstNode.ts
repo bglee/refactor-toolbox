@@ -11,6 +11,6 @@ export type NodePropData =
   | NonNodeObject;
 
 export interface ASTNode {
-  type?: string;
+  tree_key?: string;
   [key: string]: NodePropData;
 }

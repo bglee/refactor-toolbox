@@ -27,7 +27,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
 }) => {
   const path = pathBuilder(node, parentPath, index);
   const { state, setState } = useNodes(path);
-  const { contextMenu, setContextMenu } = useContextMenuStore();
+  const { setContextMenu } = useContextMenuStore();
 
   const renderValue = (value: NodePropData, key: string, index: number): JSX.Element => {
     // Handle null/undefined
@@ -49,13 +49,13 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
             <>
               <div className="pl-2">
                 {value.map((item, idx) => (
-                  <ASTNodeDisplay
+                  item !== null && typeof item === "object" && "type" in item ? <ASTNodeDisplay
                     displayKeys={displayKeys}
                     node={item as ASTNode}
                     key={idx}
                     parentPath={path}
                     index={idx}
-                  />
+                  /> : <span className="hs-accordion__value">{JSON.stringify(item)}</span>
                 ))}
               </div>
               <div className="text-secondary/80">{"}"}</div>
@@ -66,6 +66,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
     }
 
     // Handle objects/nodes
+    if("type" in value) {
     return (
       <div className="pl-2">
         <ASTNodeDisplay
@@ -74,8 +75,9 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
           parentPath={path}
           index={index}
         />
-      </div>
-    );
+      </div>)
+      }
+      return <span className="hs-accordion__value">{JSON.stringify(value)}</span>;
   };
 
   const handleContextMenu = (event: React.MouseEvent) => {
@@ -94,7 +96,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
            }
           onContextMenu={handleContextMenu}
         >
-          {node.type || "Object"}{" "}
+          {node.tree_key || "Object"}{" "}
         </button>
         {Object.entries(node).filter(([key]) => !displayKeys.includes(key)).length > 0 && (
           <div

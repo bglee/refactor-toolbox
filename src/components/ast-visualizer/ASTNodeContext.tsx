@@ -36,7 +36,7 @@ export const useNodes = (nodeKey: string) => {
 };
 
 export const pathBuilder = (node: ASTNode, parentPath: string, index: number) =>
-  `${parentPath}.${node.type || "Object"}[${index}]`;
+  `${parentPath}.${node.tree_key || "Object"}[${index}]`;
 
 export const useASTNodeState = (): ASTNodeContextType => {
   const [nodeState, setNodeState] = useState(new Map<string, boolean>());

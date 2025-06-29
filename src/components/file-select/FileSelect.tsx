@@ -69,8 +69,8 @@ export const FileSelect: React.FC = () => {
                 value={selectedParserId}
                 onChange={(e) => setSelectedParserId(e.target.value)}
               >
-                {parserOptions?.map((parser) => (
-                  <option value={parser.value}>{parser.label}</option>
+                {parserOptions?.map((parser, index) => (
+                  <option key={index} value={parser.value}>{parser.label}</option>
                 ))}
               </select>
             </div>

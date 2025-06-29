@@ -28,10 +28,11 @@ const VisiblityKeySection: React.FC<VisibilityKeySectionProps> = ({ title, child
 );
 
 const KeyListItem: React.FC<KeyListItemProps> = ({ keyName, checked, onChange }) => (
+  
   <li className="whitespace-nowrap">
-    <label className="flex items-center gap-1">
+    <label className="flex items-center gap-1 overflow-hidden" >
       <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-      {keyName}
+      <span title={keyName} className="truncate block max-w-[120px]">{keyName}</span>
     </label>
   </li>
 );

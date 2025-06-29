@@ -19,6 +19,7 @@ export const ASTContextMenu: React.FC = () => {
     console.log("Add to filter:", contextMenu?.nodeId);
     setContextMenu(null);
   };
+
   return (contextMenu?.nodeId ? (
     <div 
       className="fixed bg-base-200 shadow-lg rounded-lg py-1 z-50"

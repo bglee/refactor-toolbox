@@ -6,7 +6,6 @@ import { TypeScript } from "./typeScript";
 const javaScript = new JavaScript();
 const typeScript = new TypeScript();
 
-
 export const fileExtensions = [javaScript.fileExtension, typeScript.fileExtension] as const;
 
 export type FileExtension = (typeof fileExtensions)[number];
