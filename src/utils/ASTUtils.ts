@@ -41,6 +41,7 @@ export function extractPosition(
     return { start: node.range[0] as number, end: node.range[1] as number };
   }
 
+  console.log(node.loc);
   if (node.loc && typeof node.loc === "object") {
     const loc = node.loc as any;
     if (loc.start && loc.end && sourceCode) {
