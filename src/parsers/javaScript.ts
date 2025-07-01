@@ -1,5 +1,8 @@
 import { ASTNode } from "../model/AstNode";
 import { LanguageInterface, ParserInterface } from "./_parser_interface";
+import * as recast from "recast";
+import * as acorn from "acorn";
+import * as esprima from "esprima";
 
 function insertTreeKey(node: any): any {
   if (!node || typeof node !== "object") return node;
@@ -37,7 +40,6 @@ function insertTreeKey(node: any): any {
 class RecastParser implements ParserInterface {
   parserId = "recast";
   parse(code: string): ASTNode | null {
-    const recast = require("recast");
     const ast = recast.parse(code);
     return insertTreeKey(ast.program);
   }
@@ -46,8 +48,7 @@ class RecastParser implements ParserInterface {
 class AcornParser implements ParserInterface {
   parserId = "acorn";
   parse(code: string): ASTNode | null {
-    const acorn = require("acorn");
-    const ast = acorn.parse(code, { sourceType: "module" });
+    const ast = acorn.parse(code, { sourceType: "module", ecmaVersion: 2020 });
     return insertTreeKey(ast);
   }
 }
@@ -55,7 +56,6 @@ class AcornParser implements ParserInterface {
 class EsprimaParser implements ParserInterface {
   parserId = "esprima";
   parse(code: string): ASTNode | null {
-    const esprima = require("esprima");
     const ast = esprima.parse(code, { sourceType: "module" });
     return insertTreeKey(ast);
   }
