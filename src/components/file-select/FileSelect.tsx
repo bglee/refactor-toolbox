@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { languages } from "../../parsers/_parser_constants";
 import { useCodeStateStore } from "../../store/store-hooks/useCodeStateStore";
+import { generateChecksum } from "../../utils/ChecksumUtils";
 
 export const FileSelect: React.FC = () => {
   const { setCodeState } = useCodeStateStore();
@@ -40,10 +41,14 @@ export const FileSelect: React.FC = () => {
 
   useEffect(() => {
     if (content && detectedLanguage && selectedParserId) {
+      // Generate checksum for the complete code state
+      const checksum = generateChecksum(content, detectedLanguage.languageName, selectedParserId);
+
       setCodeState({
         content,
         languageName: detectedLanguage.languageName,
         parserId: selectedParserId,
+        checksum,
       });
     }
   }, [content, detectedLanguage, selectedParserId]);

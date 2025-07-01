@@ -1,19 +1,10 @@
-import { DEFAULT_FILTER, filterStore } from "../store";
-import { useEffect, useState } from "react";
+import { filterStore } from "../store";
 import { Filter } from "../../model/filter";
+import { useStore } from "@tanstack/react-store";
 
 export const useFilterStore = () => {
-  const [filter, setFilter] = useState(DEFAULT_FILTER);
-
-  useEffect(() => {
-    const unsubscribe = filterStore.subscribe(() => {
-      setFilter(filterStore.state);
-    });
-    return () => unsubscribe();
-  }, []);
-
   return {
-    filter,
+    filter: useStore(filterStore, (state: Filter<string>) => state),
     setFilter: (filter: Filter<string>) => filterStore.setState(() => filter),
   } as const;
 };

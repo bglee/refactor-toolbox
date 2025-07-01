@@ -79,7 +79,28 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
 
   const handleContextMenu = (event: React.MouseEvent) => {
     event.preventDefault();
-    setContextMenu({ x: event.clientX, y: event.clientY, nodeId: path });
+
+    // Create a shallow copy of the node with only top-level properties
+    const nodeCopy: ASTNode = {};
+    for (const [key, value] of Object.entries(node)) {
+      if (
+        typeof value === "string" ||
+        typeof value === "number" ||
+        typeof value === "boolean" ||
+        value === null ||
+        value === undefined
+      ) {
+        nodeCopy[key] = value;
+      } else if (Array.isArray(value)) {
+        // For arrays, just store the length
+        nodeCopy[key] = `Array[${value.length}]`;
+      } else if (typeof value === "object") {
+        // For objects, just store the tree_key if available
+        nodeCopy[key] = (value as any).tree_key || "Object";
+      }
+    }
+
+    setContextMenu({ x: event.clientX, y: event.clientY, node: nodeCopy, nodePath: path });
   };
 
   return (

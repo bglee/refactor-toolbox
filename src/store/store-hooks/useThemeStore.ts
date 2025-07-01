@@ -1,20 +1,10 @@
-import { useEffect, useState } from "react";
-import { DEFAULT_THEME, settingsStore } from "../store";
+import { settingsStore } from "../store";
 import { AppTheme } from "../../config/theming";
+import { useStore } from "@tanstack/react-store";
 
 export const useThemeStore = () => {
-  const [theme, setTheme] = useState(DEFAULT_THEME);
-
-  useEffect(() => {
-    const unsubscribe = settingsStore.theme.subscribe(() => {
-      setTheme(settingsStore.theme.state);
-    });
-
-    return () => unsubscribe();
-  }, [theme]);
-
   return {
-    theme,
+    theme: useStore(settingsStore.theme, (state: AppTheme) => state),
     setTheme: (theme: AppTheme) => settingsStore.theme.setState(() => theme),
   } as const;
 };

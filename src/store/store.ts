@@ -1,8 +1,10 @@
 import { Store } from "@tanstack/react-store";
 import { AppTheme } from "../config/theming";
 import { Filter } from "../model/filter";
-import { CodeState } from "../model/CodeState";
+import { CodeState, HighlightState } from "../model/CodeState";
 import { ContextMenuState } from "../model/ContextMenuState";
+import { ASTNode } from "../model/AstNode";
+import { AstState } from "../model/AstState";
 
 //Settings Store.
 export const DEFAULT_THEME = AppTheme.dracula;
@@ -28,9 +30,20 @@ export const DEFAULT_CODE_STATE: CodeState = {
   languageName: "",
   parserId: "",
   content: "",
+  checksum: "",
 };
 
+//AST Store
+export const DEFAULT_AST: AstState = { node: null, codeChecksum: "" };
+
+export const astStore = new Store<AstState>(DEFAULT_AST);
+
 export const codeStateStore = new Store<CodeState>(DEFAULT_CODE_STATE);
+
+//Highlight Store
+export const DEFAULT_HIGHLIGHT: HighlightState | null = null;
+
+export const highlightStore = new Store<HighlightState | null>(DEFAULT_HIGHLIGHT);
 
 const DEFAULT_CONTEXT_MENU: ContextMenuState | null = null;
 

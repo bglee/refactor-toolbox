@@ -5,7 +5,6 @@ import typescript from "typescript";
 function insertTreeKey(node: any): any {
   if (!node || typeof node !== "object") return node;
 
-  console.log(typescript.SyntaxKind[node.kind]);
   const tree_key = typescript.SyntaxKind[node.kind];
 
   // Create a shallow copy to avoid mutating the original node

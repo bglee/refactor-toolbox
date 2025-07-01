@@ -1,5 +1,8 @@
+import { ASTNode } from "./AstNode";
+
 export interface ContextMenuState {
   x: number;
   y: number;
-  nodeId: string;
+  node: ASTNode;
+  nodePath: string;
 }

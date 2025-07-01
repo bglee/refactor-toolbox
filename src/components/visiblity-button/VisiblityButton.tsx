@@ -3,7 +3,7 @@ import { MaterialIcon } from "../common/MaterialIcon";
 import { isCommonKey, isDefaultVisible } from "../../config/common_keys";
 import { ListUtils } from "../../utils/ListUtils";
 import { useKeyVisibilityStore } from "../../store/store-hooks/useKeyVisibilityStore";
-import { useSearchTerms } from "../../store/second-order-data-hooks/useSearchTerms";
+import { useSearchTerms } from "../../store/derived-store-hooks/useSearchTerms";
 
 interface VisibilityButtonProps {
   allKeys: string[];

@@ -74,7 +74,6 @@ function findMatchingTermsInDepth(
     return { root: node };
   }
 
-  console.time("Filtering AST Nodes");
   // Use the search index to find matching nodes
   for (const { tag, term } of filter.tags) {
     const valueMap = searchIndex.get(tag);
@@ -91,7 +90,6 @@ function findMatchingTermsInDepth(
       }
     }
   }
-  console.timeEnd("Filtering AST Nodes");
   return terms;
 }
 

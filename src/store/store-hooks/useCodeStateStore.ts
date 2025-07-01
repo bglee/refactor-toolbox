@@ -1,19 +1,10 @@
+import { useStore } from "@tanstack/react-store";
 import { CodeState } from "../../model/CodeState";
-import { DEFAULT_CODE_STATE, codeStateStore } from "../store";
-import { useEffect, useState } from "react";
+import { codeStateStore } from "../store";
 
 export const useCodeStateStore = () => {
-  const [codeState, setCodeState] = useState(DEFAULT_CODE_STATE);
-
-  useEffect(() => {
-    const unsubscribe = codeStateStore.subscribe(() => {
-      setCodeState(codeStateStore.state);
-    });
-    return () => unsubscribe();
-  }, []);
-
   return {
-    codeState,
+    codeState: useStore(codeStateStore, (state: CodeState) => state),
     setCodeState: (state: CodeState) => codeStateStore.setState(() => state),
-  } as const;
+  };
 };

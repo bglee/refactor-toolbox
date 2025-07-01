@@ -1,18 +1,10 @@
 import { contextMenuStore } from "../store";
 import { ContextMenuState } from "../../model/ContextMenuState";
-import { useEffect, useState } from "react";
+import { useStore } from "@tanstack/react-store";
 
 export const useContextMenuStore = () => {
-  const [contextMenu, setContextMenu] = useState(contextMenuStore.state);
-
-  useEffect(() => {
-    const unsubscribe = contextMenuStore.subscribe(() => {
-      setContextMenu(contextMenuStore.state);
-    });
-    return () => unsubscribe();
-  }, []);
   return {
-    contextMenu,
+    contextMenu: useStore(contextMenuStore, (state: ContextMenuState | null) => state),
     setContextMenu: (menu: ContextMenuState | null) => contextMenuStore.setState(() => menu),
   };
 };

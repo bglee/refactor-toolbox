@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFilteredASTNodes } from "../../store/second-order-data-hooks/useFilteredASTNodes";
+import { useFilteredASTNodes } from "../../store/derived-store-hooks/useFilteredASTNodes";
 import { useKeyVisibilityStore } from "../../store/store-hooks/useKeyVisibilityStore";
 import { ASTTree } from "./ASTTree";
 

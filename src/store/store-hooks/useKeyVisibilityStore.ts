@@ -1,18 +1,9 @@
-import { DEFAULT_KEY_VISIBILITY, keyVisibilityStore } from "../store";
-import { useEffect, useState } from "react";
+import { useStore } from "@tanstack/react-store";
+import { keyVisibilityStore } from "../store";
 
 export const useKeyVisibilityStore = () => {
-  const [keyVisibility, setKeyVisibility] = useState(DEFAULT_KEY_VISIBILITY);
-
-  useEffect(() => {
-    const unsubscribe = keyVisibilityStore.subscribe(() => {
-      setKeyVisibility(keyVisibilityStore.state);
-    });
-    return () => unsubscribe();
-  }, []);
-
   return {
-    keyVisibility,
+    keyVisibility: useStore(keyVisibilityStore, (state: string[]) => state),
     setKeyVisibility: (keys: string[]) => keyVisibilityStore.setState(() => keys),
   } as const;
 };

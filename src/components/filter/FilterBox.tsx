@@ -2,7 +2,7 @@ import React, { useMemo, useCallback } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
 import { Filter, FilterTerms } from "../../model/filter";
 import { useFilterStore } from "../../store/store-hooks/useFilterStore";
-import { useSearchTerms } from "../../store/second-order-data-hooks/useSearchTerms";
+import { useSearchTerms } from "../../store/derived-store-hooks/useSearchTerms";
 
 interface FilterBoxProps<T extends string> {
   filterTermOptions: FilterTerms<T>;

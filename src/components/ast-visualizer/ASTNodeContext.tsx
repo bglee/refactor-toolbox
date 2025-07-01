@@ -26,8 +26,13 @@ export const useNodes = (nodeKey: string) => {
   return { state, setState };
 };
 
-export const pathBuilder = (node: ASTNode, parentPath: string, index: number) =>
-  `${parentPath}.${node.tree_key || "Object"}[${index}]`;
+export const pathBuilder = (node: ASTNode, parentPath: string, index: number) => {
+  // If this is the root node (parentPath is "root"), start the path with the tree_key
+  if (parentPath === "root") {
+    return `${node.tree_key || "Object"}[${index}]`;
+  }
+  return `${parentPath}.${node.tree_key || "Object"}[${index}]`;
+};
 
 export const useASTNodeState = (): ASTNodeContextType => {
   const [nodeState, setNodeState] = useState(new Map<string, boolean>());
