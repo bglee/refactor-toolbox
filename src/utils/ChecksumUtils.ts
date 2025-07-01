@@ -17,17 +17,3 @@ export function generateChecksum(...content: string[]): string {
 
   return hash.toString();
 }
-
-/**
- * Checks if the content has changed by comparing checksums
- * @param content The current content
- * @param existingChecksum The existing checksum to compare against
- * @returns true if content has changed, false otherwise
- */
-export function hasContentChanged(content: string, existingChecksum?: string): boolean {
-  if (!existingChecksum) return true; // No previous checksum, consider it changed
-  const currentChecksum = generateChecksum(content);
-  const changed = currentChecksum !== existingChecksum;
-
-  return changed;
-}

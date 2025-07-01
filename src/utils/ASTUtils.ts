@@ -1,64 +1,6 @@
 import { ASTNode } from "../model/AstNode";
 
 /**
- * Finds an AST node by its path
- * @param root The root AST node
- * @param path The path to the node (e.g., "Program[0].body[0]")
- * @returns The found AST node or null if not found
- */
-export function findNodeByPath(root: ASTNode, path: string): ASTNode | null {
-  if (path === "root") {
-    return root;
-  }
-
-  const pathParts = path.split(".");
-  let current: any = root;
-
-  for (let i = 0; i < pathParts.length; i++) {
-    const part = pathParts[i];
-
-    // Parse the part to extract node type and index
-    const match = part.match(/^(.+)\[(\d+)\]$/);
-    if (!match) {
-      return null;
-    }
-
-    const [, nodeType, indexStr] = match;
-    const index = parseInt(indexStr, 10);
-
-    // Find the property that contains the node
-    let found = false;
-
-    for (const [key, value] of Object.entries(current)) {
-      if (Array.isArray(value)) {
-        // Check if any item in the array has the matching tree_key
-        const item = value[index];
-
-        if (item && typeof item === "object" && "tree_key" in item) {
-          if (item.tree_key === nodeType) {
-            current = item;
-            found = true;
-            break;
-          }
-        }
-      } else if (value && typeof value === "object" && "tree_key" in value) {
-        if (value.tree_key === nodeType) {
-          current = value;
-          found = true;
-          break;
-        }
-      }
-    }
-
-    if (!found) {
-      return null;
-    }
-  }
-
-  return current;
-}
-
-/**
  * Converts line/column position to character offset
  * @param sourceCode The source code string
  * @param line The line number (1-indexed)

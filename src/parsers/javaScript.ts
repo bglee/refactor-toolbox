@@ -56,7 +56,7 @@ class AcornParser implements ParserInterface {
 class EsprimaParser implements ParserInterface {
   parserId = "esprima";
   parse(code: string): ASTNode | null {
-    const ast = esprima.parse(code, { sourceType: "module" });
+    const ast = esprima.parseScript(code);
     return insertTreeKey(ast);
   }
 }
