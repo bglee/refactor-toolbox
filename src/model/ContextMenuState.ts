@@ -3,6 +3,9 @@ import { ASTNode } from "./AstNode";
 export interface ContextMenuState {
   x: number;
   y: number;
-  node: ASTNode;
+  astBrowserContext:{
+node: ASTNode;
   nodePath: string;
+  }
+  
 }

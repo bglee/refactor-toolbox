@@ -106,7 +106,7 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
     // Create a shallow copy of the node with only top-level properties
     const nodeCopy = copyNodeForContextMenu(node);
 
-    setContextMenu({ x: event.clientX, y: event.clientY, node: nodeCopy, nodePath: path });
+    setContextMenu({ x: event.clientX, y: event.clientY, astBrowserContext: {node: nodeCopy, nodePath: path} });
   };
 
   return (
