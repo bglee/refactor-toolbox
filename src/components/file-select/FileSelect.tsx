@@ -37,11 +37,11 @@ export const FileSelect: React.FC = () => {
     (event: React.ChangeEvent<HTMLSelectElement>) => {
       const parserId = event.target.value;
       if (codeState.file) {
-      const detectedLanguage = detectLanguage(codeState.file);
-      if (detectedLanguage?.parsers.some((parser) => parser.parserId === parserId)) {
-        updateCodeState(
-          codeState.file,
-          codeState.content,
+        const detectedLanguage = detectLanguage(codeState.file);
+        if (detectedLanguage?.parsers.some((parser) => parser.parserId === parserId)) {
+          updateCodeState(
+            codeState.file,
+            codeState.content,
             detectedLanguage?.languageName,
             parserId
           );
@@ -73,7 +73,10 @@ export const FileSelect: React.FC = () => {
     }
   };
 
-  const detectedLanguage = useMemo(() => codeState.file ? detectLanguage(codeState.file) : undefined, [codeState.file]);
+  const detectedLanguage = useMemo(
+    () => (codeState.file ? detectLanguage(codeState.file) : undefined),
+    [codeState.file]
+  );
 
   const parserOptions = useMemo(() => {
     return detectedLanguage?.parsers.map((parser) => ({
@@ -102,7 +105,7 @@ export const FileSelect: React.FC = () => {
             <div className="text-sm text-gray-500 px-5">
               <label htmlFor="language-select">Select Parser:</label>
               <select
-                className="ml-2 border border-neutral rounded-md p-0.5 text-primary/70"
+                className="bg-base-200 ml-2 border border-neutral rounded-md p-0.5 text-primary/70"
                 id="language-select"
                 value={codeState.parserId}
                 onChange={handleSelectedParserIdChange}
