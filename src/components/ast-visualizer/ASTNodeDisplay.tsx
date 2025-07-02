@@ -139,14 +139,16 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
             </div>
             <button
               className="text-sm underline italic pl-1 text-secondary/30"
-              onClick={() =>
+              onClick={() =>{
+              
                 setKeyVisibility([
                   ...displayKeys,
                   ...Object.entries(node)
                     .filter(([key]) => !displayKeys.includes(key))
                     .map(([key]) => key),
                 ])
-              }
+                setState(true);
+              }}
             >
               Show all
             </button>
