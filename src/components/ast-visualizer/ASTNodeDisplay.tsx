@@ -12,27 +12,26 @@ interface ASTNodeDisplayProps {
 }
 
 const copyNodeForContextMenu = (node: ASTNode): ASTNode => {
-    const nodeCopy: ASTNode = {};
-    for (const [key, value] of Object.entries(node)) {
-      if (
-        typeof value === "string" ||
-        typeof value === "number" ||
-        typeof value === "boolean" ||
-        value === null ||
-        value === undefined
-      ) {
-        nodeCopy[key] = value;
-      } else if (Array.isArray(value)) {
-        // For arrays, just store the length
-        nodeCopy[key] = `Array[${value.length}]`;
-      } else if (typeof value === "object") {
-        // For objects, just store the tree_key if available
-        nodeCopy[key] = copyNodeForContextMenu(value as ASTNode);
-      }
+  const nodeCopy: ASTNode = {};
+  for (const [key, value] of Object.entries(node)) {
+    if (
+      typeof value === "string" ||
+      typeof value === "number" ||
+      typeof value === "boolean" ||
+      value === null ||
+      value === undefined
+    ) {
+      nodeCopy[key] = value;
+    } else if (Array.isArray(value)) {
+      // For arrays, just store the length
+      nodeCopy[key] = `Array[${value.length}]`;
+    } else if (typeof value === "object") {
+      // For objects, just store the tree_key if available
+      nodeCopy[key] = copyNodeForContextMenu(value as ASTNode);
     }
-    return nodeCopy;
-}
-
+  }
+  return nodeCopy;
+};
 
 /*
  * ASTNode Component
@@ -106,7 +105,11 @@ const ASTNodeDisplay: React.FC<ASTNodeDisplayProps> = ({
     // Create a shallow copy of the node with only top-level properties
     const nodeCopy = copyNodeForContextMenu(node);
 
-    setContextMenu({ x: event.clientX, y: event.clientY, astBrowserContext: {node: nodeCopy, nodePath: path} });
+    setContextMenu({
+      x: event.clientX,
+      y: event.clientY,
+      astBrowserContext: { node: nodeCopy, nodePath: path },
+    });
   };
 
   return (

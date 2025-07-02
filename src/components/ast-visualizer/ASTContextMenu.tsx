@@ -9,7 +9,6 @@ export const ASTContextMenu: React.FC = () => {
   const { setHighlight } = useHighlightStore();
   const { codeState } = useCodeStateStore();
 
-
   const highlightInCodePosition = useMemo(() => {
     if (!contextMenu?.astBrowserContext.node) {
       return null;
@@ -36,9 +35,9 @@ export const ASTContextMenu: React.FC = () => {
       setContextMenu(null);
       return;
     }
-    
+
     setHighlight(highlightInCodePosition);
- 
+
     setContextMenu(null);
   }, [contextMenu, highlightInCodePosition, codeState, setHighlight, setContextMenu]);
 

@@ -1,4 +1,5 @@
 export interface CodeState {
+  file: File | undefined;
   languageName: string;
   parserId: string;
   content: string;
