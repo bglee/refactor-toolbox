@@ -2,7 +2,7 @@ import { ASTNode } from "../model/AstNode";
 import { LanguageInterface, ParserInterface } from "./_parser_interface";
 import typescript from "typescript";
 
-function insertTreeKey(node: any): any {
+const insertTreeKey = (node: any): any => {
   if (!node || typeof node !== "object") return node;
 
   const tree_key = typescript.SyntaxKind[node.kind];
@@ -33,7 +33,7 @@ function insertTreeKey(node: any): any {
   }
 
   return newNode;
-}
+};
 
 class TypeScriptParser implements ParserInterface {
   parserId = "typescript";

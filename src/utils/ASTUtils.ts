@@ -7,7 +7,7 @@ import { ASTNode } from "../model/AstNode";
  * @param column The column number (0-indexed)
  * @returns The character offset
  */
-function lineColumnToOffset(sourceCode: string, line: number, column: number): number {
+const lineColumnToOffset = (sourceCode: string, line: number, column: number): number => {
   const lines = sourceCode.split("\n");
   let offset = 0;
 
@@ -20,7 +20,7 @@ function lineColumnToOffset(sourceCode: string, line: number, column: number): n
   offset += column;
 
   return offset;
-}
+};
 
 /**
  * Extracts position information from an AST node
@@ -28,10 +28,10 @@ function lineColumnToOffset(sourceCode: string, line: number, column: number): n
  * @param sourceCode The source code string (needed for line/column conversion)
  * @returns Position information or null if not available
  */
-export function extractPosition(
+export const extractPosition = (
   node: ASTNode,
   sourceCode?: string
-): { start: number; end: number } | null {
+): { start: number; end: number } | null => {
   // Check for common position properties
   if (node.start !== undefined && node.end !== undefined) {
     return { start: node.start as number, end: node.end as number };
@@ -53,4 +53,4 @@ export function extractPosition(
   }
 
   return null;
-}
+};

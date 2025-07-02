@@ -10,7 +10,7 @@ import { settingsStore } from "./store/store";
 import { useBindStore } from "./store/bindings/useRetriveFromBinding";
 import { useDOMAttribute } from "./store/bindings/useDOMAttribute";
 
-function App() {
+const App = () => {
   useBindStore({
     defaultState: AppTheme.dracula,
     store: settingsStore.theme,
@@ -42,6 +42,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;

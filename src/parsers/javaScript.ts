@@ -4,7 +4,7 @@ import * as recast from "recast";
 import * as acorn from "acorn";
 import * as esprima from "esprima";
 
-function insertTreeKey(node: any): any {
+const insertTreeKey = (node: any): any => {
   if (!node || typeof node !== "object") return node;
 
   const tree_key = node.type;
@@ -35,7 +35,7 @@ function insertTreeKey(node: any): any {
   }
 
   return newNode;
-}
+};
 
 class RecastParser implements ParserInterface {
   parserId = "recast";

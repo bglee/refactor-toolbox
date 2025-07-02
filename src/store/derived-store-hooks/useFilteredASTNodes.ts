@@ -14,10 +14,10 @@ type SearchIndex = Map<string, Map<string, Array<ASTNode>>>;
 // 1. Store the full path to each property in the index
 // 2. Modify the index structure to: Map<path, Map<value, node>>
 // 3. Update the search logic to handle path-based lookups
-function buildSearchIndex(node: ASTNode): SearchIndex {
+const buildSearchIndex = (node: ASTNode): SearchIndex => {
   const searchIndex: SearchIndex = new Map();
 
-  function traverse(node: ASTNode, parentPath: string, nodeIndex: number) {
+  const traverse = (node: ASTNode, parentPath: string, nodeIndex: number) => {
     if (!node || typeof node !== "object") return;
 
     const path = pathBuilder(node, parentPath, nodeIndex);
@@ -56,17 +56,17 @@ function buildSearchIndex(node: ASTNode): SearchIndex {
         }
       }
     }
-  }
+  };
 
   traverse(node, "root", 0);
   return searchIndex;
-}
+};
 
-function findMatchingTermsInDepth(
+const findMatchingTermsInDepth = (
   node: ASTNode,
   filter: Filter<string>,
   searchIndex: SearchIndex
-): Record<string, ASTNode> {
+): Record<string, ASTNode> => {
   const terms: Record<string, ASTNode> = {};
 
   // If no filters, return early
@@ -91,7 +91,7 @@ function findMatchingTermsInDepth(
     }
   }
   return terms;
-}
+};
 
 export const useFilteredASTNodes = (): Record<string, ASTNode> => {
   const { filter } = useFilterStore();

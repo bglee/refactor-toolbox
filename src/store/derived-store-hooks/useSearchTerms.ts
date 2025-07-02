@@ -2,11 +2,11 @@ import { useMemo } from "react";
 import { ASTNode } from "../../model/AstNode";
 import { useSourceFileParser } from "./useSourceFileParser";
 
-function getSearchTermsInDepth(node: ASTNode): Record<string, string[]> {
+const getSearchTermsInDepth = (node: ASTNode): Record<string, string[]> => {
   // Pre-allocate a single object to store results
   const terms: Record<string, string[]> = {};
 
-  function traverse(node: ASTNode) {
+  const traverse = (node: ASTNode) => {
     if (!node || typeof node !== "object") return;
 
     // Use Object.keys instead of entries for better performance
@@ -41,7 +41,7 @@ function getSearchTermsInDepth(node: ASTNode): Record<string, string[]> {
         }
       }
     }
-  }
+  };
 
   traverse(node);
 
@@ -51,9 +51,9 @@ function getSearchTermsInDepth(node: ASTNode): Record<string, string[]> {
   }
 
   return terms;
-}
+};
 
-export function useSearchTerms() {
+export const useSearchTerms = () => {
   const { ast } = useSourceFileParser();
   return useMemo(() => (ast ? getSearchTermsInDepth(ast) : {}), [ast]);
-}
+};

@@ -4,7 +4,7 @@
  * @param content The string content to hash
  * @returns A checksum string
  */
-export function generateChecksum(...content: string[]): string {
+export const generateChecksum = (...content: string[]): string => {
   let hash = 0;
   if (content.length === 0) return hash.toString();
   const combinedContent = content.join("|");
@@ -16,4 +16,4 @@ export function generateChecksum(...content: string[]): string {
   }
 
   return hash.toString();
-}
+};
