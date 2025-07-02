@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { languages } from "../../parsers/_parser_constants";
 import { useCodeStateStore } from "../../store/store-hooks/useCodeStateStore";
 import { generateChecksum } from "../../utils/ChecksumUtils";
+import { MaterialIcon } from "../common/MaterialIcon";
 
 const detectLanguage = (file: File) => {
   return languages.find((language) => language.fileExtension === file.name.split(".").pop());
@@ -85,6 +86,10 @@ export const FileSelect: React.FC = () => {
     }));
   }, [detectedLanguage]);
 
+  const handleClearFile = useCallback(() => {
+    setCodeState({ file: undefined, content: "", languageName: "", parserId: "", checksum: "" });
+  }, [setCodeState]);
+
   return (
     <div className="pl-5 flex flex-row gap-1 items-center">
       <input type="file" onChange={handleFileInput} />
@@ -122,6 +127,13 @@ export const FileSelect: React.FC = () => {
               No parsers found for this file extension
             </div>
           )}
+
+          <div
+            className="cursor-pointer text-[14px] font-mono text-primary/50 hover:text-primary/80 mr-2"
+            onClick={handleClearFile}
+          >
+            Clear File
+          </div>
         </>
       )}
     </div>

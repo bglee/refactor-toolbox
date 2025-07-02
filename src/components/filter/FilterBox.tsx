@@ -297,7 +297,7 @@ export const FilterBox = () => {
     <div className="w-full relative m-2">
       <div
         id="input"
-        className={`bg-base-200 border border-neutral flex items-center p-1 rounded-t-md ${!dropdownActive && "rounded-b-md"}`}
+        className={`bg-base-200 border-2 border-base-300 flex items-center p-1 rounded-t-md ${!dropdownActive && "rounded-b-md"}`}
       >
         <MaterialIcon name="search" className="px-2" />
 
