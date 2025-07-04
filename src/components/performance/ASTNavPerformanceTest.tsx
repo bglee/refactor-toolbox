@@ -8,7 +8,6 @@ interface PerformanceMetrics {
   searchTermsTime: number;
   searchIndexTime: number;
   nodeCount: number;
-  renderTime: number;
   searchTime: number;
   checksumTime: number;
   checksum: string;
@@ -62,10 +61,8 @@ export const AstNavPerformaceTest: React.FC = () => {
         const searchIndex = buildSearchIndex(ast);
         const searchIndexEnd = performance.now();
 
-        // Test rendering (simulate)
-        const renderStart = performance.now();
+        // Count nodes
         const nodeCount = countNodes(ast);
-        const renderEnd = performance.now();
 
         // Test checksum generation
         const checksumStart = performance.now();
@@ -76,7 +73,6 @@ export const AstNavPerformaceTest: React.FC = () => {
           searchTermsTime: searchTermsEnd - searchTermsStart,
           searchIndexTime: searchIndexEnd - searchIndexStart,
           nodeCount,
-          renderTime: renderEnd - renderStart,
           searchTime: 0,
           checksumTime: checksumEnd - checksumStart,
           checksum,
@@ -210,8 +206,6 @@ export const AstNavPerformaceTest: React.FC = () => {
             <div>{metrics.searchTermsTime.toFixed(2)}ms</div>
             <div className="font-semibold">Search Indexing: </div>{" "}
             <div>{metrics.searchIndexTime.toFixed(2)}ms</div>
-            <div className="font-semibold">Approximate Render Time: </div>{" "}
-            <div>{metrics.renderTime.toFixed(2)}ms</div>
             <div className="font-semibold">Checksum Generation: </div>{" "}
             <div>{metrics.checksumTime.toFixed(2)}ms</div>
             <div className="font-semibold">Node Count: </div>{" "}

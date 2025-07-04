@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tanstack/react-router": "^1.124.0",
+    "@tanstack/react-router-devtools": "^1.124.0",
     "@tanstack/react-store": "^0.7.1",
     "@types/jest": "^27.5.2",
     "@types/react": "^18.3.3",
@@ -45,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@tanstack/router-plugin": "^1.124.0",
     "@types/esprima": "^4.0.6",
     "@types/node": "^24.0.8",
     "@vitejs/plugin-react": "^4.6.0",
