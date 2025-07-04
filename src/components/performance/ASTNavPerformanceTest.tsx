@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useSourceFileParser } from "../../store/derived-store-hooks/useSourceFileParser";
 import { buildSearchIndex } from "../../store/derived-store-hooks/useFilteredASTNodes";
 import { getSearchTermsInDepth } from "../../store/derived-store-hooks/useSearchTerms";
+import { generateChecksum } from "../../utils/ChecksumUtils";
 
 interface PerformanceMetrics {
   searchTermsTime: number;
@@ -9,6 +10,8 @@ interface PerformanceMetrics {
   nodeCount: number;
   renderTime: number;
   searchTime: number;
+  checksumTime: number;
+  checksum: string;
 }
 
 interface SearchTest {
@@ -64,12 +67,19 @@ export const AstNavPerformaceTest: React.FC = () => {
         const nodeCount = countNodes(ast);
         const renderEnd = performance.now();
 
+        // Test checksum generation
+        const checksumStart = performance.now();
+        const checksum = generateChecksum(JSON.stringify(ast));
+        const checksumEnd = performance.now();
+
         const metric: PerformanceMetrics = {
           searchTermsTime: searchTermsEnd - searchTermsStart,
           searchIndexTime: searchIndexEnd - searchIndexStart,
           nodeCount,
           renderTime: renderEnd - renderStart,
           searchTime: 0,
+          checksumTime: checksumEnd - checksumStart,
+          checksum,
         };
 
         setMetrics(metric);
@@ -202,8 +212,12 @@ export const AstNavPerformaceTest: React.FC = () => {
             <div>{metrics.searchIndexTime.toFixed(2)}ms</div>
             <div className="font-semibold">Approximate Render Time: </div>{" "}
             <div>{metrics.renderTime.toFixed(2)}ms</div>
+            <div className="font-semibold">Checksum Generation: </div>{" "}
+            <div>{metrics.checksumTime.toFixed(2)}ms</div>
             <div className="font-semibold">Node Count: </div>{" "}
             <div>{metrics.nodeCount.toLocaleString()}</div>
+            <div className="font-semibold">Checksum: </div>{" "}
+            <div className="font-mono text-xs">{metrics.checksum}</div>
             {metrics.searchTime > 0 && <div>Avg Search: {metrics.searchTime.toFixed(2)}ms</div>}
           </div>
         </div>

@@ -1,6 +1,5 @@
 import React from "react";
 import { Settings } from "../settings/Settings";
-import { MaterialIcon } from "../common/MaterialIcon";
 import { GitMenu } from "../git/GitMenu";
 export const NavBar: React.FC = () => {
   return (
