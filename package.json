@@ -22,7 +22,9 @@
     "build": "vite build",
     "preview": "vite preview",
     "format": "prettier --write .",
-    "knip": "knip"
+    "knip": "knip",
+    "generate-tests": "node scripts/generate-test-files.js",
+    "clear-generated-tests": "rm -rf generated-tests"
   },
   "eslintConfig": {
     "extends": [
