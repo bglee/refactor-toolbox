@@ -14,7 +14,7 @@ type SearchIndex = Map<string, Map<string, Array<ASTNode>>>;
 // 1. Store the full path to each property in the index
 // 2. Modify the index structure to: Map<path, Map<value, node>>
 // 3. Update the search logic to handle path-based lookups
-const buildSearchIndex = (node: ASTNode): SearchIndex => {
+export const buildSearchIndex = (node: ASTNode): SearchIndex => {
   const searchIndex: SearchIndex = new Map();
 
   const traverse = (node: ASTNode, parentPath: string, nodeIndex: number) => {

@@ -4,6 +4,7 @@ import { FileSelect } from "./components/file-select/FileSelect";
 import { VisiblityButton } from "./components/visiblity-button/VisiblityButton";
 import { ASTVisualizer } from "./components/ast-visualizer/ASTVisualizer";
 import { CodeVisualizer } from "./components/code-visulizer/CodeVisualizer";
+import { AstNavPerformaceTest } from "./components/performance/ASTNavPerformanceTest";
 import { AppTheme } from "./config/theming";
 import { useLocalStore } from "./store/bindings/useLocalStore";
 import { settingsStore } from "./store/store";
@@ -37,6 +38,7 @@ const App = () => {
             <VisiblityButton />
             <FilterBox />
           </div>
+          <AstNavPerformaceTest />
           <ASTVisualizer />
         </div>
       </div>

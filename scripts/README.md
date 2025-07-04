@@ -41,26 +41,27 @@ node scripts/generate-test-files.js --output ./my-tests --length 200 --depth 3
 
 ### Command Line Options
 
-| Option | Short | Description | Default |
-|--------|-------|-------------|---------|
-| `--length` | `-l` | Number of statements to generate | 100 |
-| `--depth` | `-d` | Maximum nesting depth | 5 |
-| `--languages` | `-lang` | Comma-separated list of languages (js,ts,go) | js,ts,go |
-| `--output` | `-o` | Output directory | `generated-tests/` |
-| `--help` | `-h` | Show help message | - |
+| Option        | Short   | Description                                  | Default            |
+| ------------- | ------- | -------------------------------------------- | ------------------ |
+| `--length`    | `-l`    | Number of statements to generate             | 100                |
+| `--depth`     | `-d`    | Maximum nesting depth                        | 5                  |
+| `--languages` | `-lang` | Comma-separated list of languages (js,ts,go) | js,ts,go           |
+| `--output`    | `-o`    | Output directory                             | `generated-tests/` |
+| `--help`      | `-h`    | Show help message                            | -                  |
 
 ## Generated Files
 
 The script creates files in the following format:
+
 - `test-{length}statements-{depth}depth.js` - JavaScript file
 
 ## Statement Types Generated
 
 ### JavaScript
+
 - **Simple**: Variable declarations, console.log, return statements
 - **Medium**: If/else, loops, functions, objects, arrays
 - **Complex**: Classes, interfaces, async/await, generators, decorators
-
 
 ## Example Output
 
@@ -71,15 +72,15 @@ The script creates files in the following format:
 
 const var1 = 42;
 let var2 = "hello world";
-function func3() { 
-  if (condition4) { 
-    const var5 = true; 
-  } 
+function func3() {
+  if (condition4) {
+    const var5 = true;
+  }
 }
-class Class6 { 
-  constructor() { 
-    this.prop = "value"; 
-  } 
+class Class6 {
+  constructor() {
+    this.prop = "value";
+  }
 }
 // ... more statements
 ```
@@ -101,8 +102,8 @@ node scripts/generate-test-files.js --length 5000 --depth 10 --languages js,ts,g
 The generated files can be used to test your AST parser's performance and correctness:
 
 ```javascript
-const { TestFileGenerator } = require('./scripts/generate-test-files.js');
-const { JavaScript } = require('./src/parsers/javaScript');
+const { TestFileGenerator } = require("./scripts/generate-test-files.js");
+const { JavaScript } = require("./src/parsers/javaScript");
 
 // Generate test content
 const generator = new TestFileGenerator(1000, 10);
@@ -111,8 +112,8 @@ const testCode = generator.generateJavaScriptFile();
 // Test parser performance
 const jsParser = new JavaScript();
 const startTime = Date.now();
-const ast = jsParser.parse(testCode, 'recast');
+const ast = jsParser.parse(testCode, "recast");
 const endTime = Date.now();
 
-console.log(`Parsed ${testCode.split('\n').length} lines in ${endTime - startTime}ms`);
-``` 
+console.log(`Parsed ${testCode.split("\n").length} lines in ${endTime - startTime}ms`);
+```

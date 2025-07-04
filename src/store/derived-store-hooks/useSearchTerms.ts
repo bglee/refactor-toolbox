@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { ASTNode } from "../../model/AstNode";
 import { useSourceFileParser } from "./useSourceFileParser";
 
-const getSearchTermsInDepth = (node: ASTNode): Record<string, string[]> => {
+export const getSearchTermsInDepth = (node: ASTNode): Record<string, string[]> => {
   // Pre-allocate a single object to store results
   const terms: Record<string, string[]> = {};
 
