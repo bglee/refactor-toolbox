@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from "react";
 import { languages } from "../../parsers/_parser_constants";
 import { useCodeStateStore } from "../../store/store-hooks/useCodeStateStore";
 import { generateChecksum } from "../../utils/ChecksumUtils";
-import { MaterialIcon } from "../common/MaterialIcon";
 
 const detectLanguage = (file: File) => {
   return languages.find((language) => language.fileExtension === file.name.split(".").pop());

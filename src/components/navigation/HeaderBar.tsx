@@ -1,5 +1,4 @@
 import React from "react";
-import { Settings } from "../settings/Settings";
 import { GitMenu } from "../git/GitMenu";
 import { NavigationSearch } from "./NavigationSearch";
 export const HeaderBar: React.FC = () => {
@@ -22,9 +21,6 @@ export const HeaderBar: React.FC = () => {
         <span className="text-sm ml-auto mr-2 font-bold">Refactor Commit Number:</span>
         <span className="text-sm ml-auto mr-2">0</span>
         <GitMenu />
-      </div>
-      <div className="flex-none">
-        <Settings />
       </div>
     </div>
   );

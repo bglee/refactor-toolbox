@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as Dev_toolsRouteImport } from './routes/dev_tools'
 import { Route as Ast_power_searchRouteImport } from './routes/ast_power_search'
 
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Dev_toolsRoute = Dev_toolsRouteImport.update({
   id: '/dev_tools',
   path: '/dev_tools',
@@ -26,31 +32,42 @@ const Ast_power_searchRoute = Ast_power_searchRouteImport.update({
 export interface FileRoutesByFullPath {
   '/ast_power_search': typeof Ast_power_searchRoute
   '/dev_tools': typeof Dev_toolsRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesByTo {
   '/ast_power_search': typeof Ast_power_searchRoute
   '/dev_tools': typeof Dev_toolsRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/ast_power_search': typeof Ast_power_searchRoute
   '/dev_tools': typeof Dev_toolsRoute
+  '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/ast_power_search' | '/dev_tools'
+  fullPaths: '/ast_power_search' | '/dev_tools' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/ast_power_search' | '/dev_tools'
-  id: '__root__' | '/ast_power_search' | '/dev_tools'
+  to: '/ast_power_search' | '/dev_tools' | '/settings'
+  id: '__root__' | '/ast_power_search' | '/dev_tools' | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   Ast_power_searchRoute: typeof Ast_power_searchRoute
   Dev_toolsRoute: typeof Dev_toolsRoute
+  SettingsRoute: typeof SettingsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dev_tools': {
       id: '/dev_tools'
       path: '/dev_tools'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   Ast_power_searchRoute: Ast_power_searchRoute,
   Dev_toolsRoute: Dev_toolsRoute,
+  SettingsRoute: SettingsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
