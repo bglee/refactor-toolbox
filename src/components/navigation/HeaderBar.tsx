@@ -1,7 +1,7 @@
 import React from "react";
 import { Settings } from "../settings/Settings";
 import { GitMenu } from "../git/GitMenu";
-export const NavBar: React.FC = () => {
+export const HeaderBar: React.FC = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-none">

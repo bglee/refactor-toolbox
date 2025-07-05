@@ -1,10 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
-import DevTools from '../views/DevTools'
+import { createFileRoute } from "@tanstack/react-router";
+import DevTools from "../views/DevTools";
 
-export const Route = createFileRoute('/dev_tools')({
+export const Route = createFileRoute("/dev_tools")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <DevTools />
+  return <DevTools />;
 }

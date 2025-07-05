@@ -1,14 +1,14 @@
-import { NavBar } from "./components/navigation/HeaderBar";
+import { HeaderBar } from "./components/navigation/HeaderBar";
 import { AppTheme } from "./config/theming";
 import { useLocalStore } from "./store/bindings/useLocalStore";
 import { settingsStore } from "./store/store";
 import { useBindStore } from "./store/bindings/useRetriveFromBinding";
 import { useDOMAttribute } from "./store/bindings/useDOMAttribute";
 import ASTPowerSearch from "./views/ASTPowerSearch";
-import { RouterProvider, createRouter } from '@tanstack/react-router'
-import { routeTree } from './routeTree.gen'
+import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { routeTree } from "./routeTree.gen";
 
-const router = createRouter({ routeTree })
+const router = createRouter({ routeTree });
 
 const App = () => {
   useBindStore({

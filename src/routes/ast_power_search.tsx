@@ -1,10 +1,10 @@
-import { createFileRoute } from '@tanstack/react-router'
-import ASTPowerSearch from '../views/ASTPowerSearch'
+import { createFileRoute } from "@tanstack/react-router";
+import ASTPowerSearch from "../views/ASTPowerSearch";
 
-export const Route = createFileRoute('/ast_power_search')({
+export const Route = createFileRoute("/ast_power_search")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <ASTPowerSearch />
+  return <ASTPowerSearch />;
 }
