@@ -13,7 +13,7 @@ export const Settings: React.FC = () => {
           <MaterialIcon name="settings" className="mr-3" />
           Settings
         </h1>
-        
+
         <div className="space-y-8">
           {/* Theme Section */}
           <div className="bg-base-100 rounded-lg p-6">
@@ -21,7 +21,7 @@ export const Settings: React.FC = () => {
             <p className="text-base-content/70 mb-4">
               Choose your preferred theme for the application.
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {Object.values(AppTheme)
                 .filter((value) => codeBlockThemeMap.has(value))
@@ -37,7 +37,10 @@ export const Settings: React.FC = () => {
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-medium capitalize">
-                        {theme.toString().replace(/([A-Z])/g, ' $1').trim()}
+                        {theme
+                          .toString()
+                          .replace(/([A-Z])/g, " $1")
+                          .trim()}
                       </span>
                       {currentTheme === theme && (
                         <MaterialIcon name="check" className="text-primary" />
@@ -59,4 +62,4 @@ export const Settings: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};

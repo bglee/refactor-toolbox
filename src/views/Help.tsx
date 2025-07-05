@@ -12,28 +12,34 @@ export const Help: React.FC = () => {
   const faqItems: FAQItem[] = [
     {
       question: "What file types are supported?",
-      answer: "Currently, Refactor Toolbox supports JavaScript (.js), TypeScript (.ts), JSX (.jsx), and TSX (.tsx) files. We're working on adding support for more languages including Go, Java, and others."
+      answer:
+        "Currently, Refactor Toolbox supports JavaScript (.js), TypeScript (.ts), JSX (.jsx), and TSX (.tsx) files. We're working on adding support for more languages including Go, Java, and others.",
     },
     {
       question: "How do I use the AST Power Search?",
-      answer: "Upload your code files using the file selector, then use the search and filter tools to explore your Abstract Syntax Tree. You can search by node types, properties, or use plain text search across all AST nodes."
+      answer:
+        "Upload your code files using the file selector, then use the search and filter tools to explore your Abstract Syntax Tree. You can search by node types, properties, or use plain text search across all AST nodes.",
     },
     {
       question: "What is an Abstract Syntax Tree (AST)?",
-      answer: "An AST is a tree representation of the abstract syntactic structure of source code. Each node represents a construct in the source code, making it easier to analyze and understand code structure programmatically."
+      answer:
+        "An AST is a tree representation of the abstract syntactic structure of source code. Each node represents a construct in the source code, making it easier to analyze and understand code structure programmatically.",
     },
     {
       question: "How do I change themes?",
-      answer: "Go to Settings and select your preferred theme from the available options. The theme will be automatically saved and applied across the application."
+      answer:
+        "Go to Settings and select your preferred theme from the available options. The theme will be automatically saved and applied across the application.",
     },
     {
       question: "Can I export my analysis results?",
-      answer: "Currently, analysis results are view-only within the application. We're working on adding export functionality for reports and findings."
+      answer:
+        "Currently, analysis results are view-only within the application. We're working on adding export functionality for reports and findings.",
     },
     {
       question: "Is my code uploaded to any servers?",
-      answer: "No, all code analysis happens locally in your browser. Your code never leaves your machine, ensuring complete privacy and security."
-    }
+      answer:
+        "No, all code analysis happens locally in your browser. Your code never leaves your machine, ensuring complete privacy and security.",
+    },
   ];
 
   const toggleFAQ = (index: number) => {
@@ -62,7 +68,7 @@ export const Help: React.FC = () => {
                 <MaterialIcon name="rocket_launch" className="mr-3 text-primary" />
                 Quick Start Guide
               </h2>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <div className="bg-primary text-primary-content rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm flex-shrink-0 mt-1">
@@ -71,8 +77,8 @@ export const Help: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Upload Your Code</h3>
                     <p className="text-base-content/70">
-                      Start by uploading your JavaScript, TypeScript, JSX, or TSX files using the file selector. 
-                      You can drag and drop files or click to browse.
+                      Start by uploading your JavaScript, TypeScript, JSX, or TSX files using the
+                      file selector. You can drag and drop files or click to browse.
                     </p>
                   </div>
                 </div>
@@ -84,8 +90,8 @@ export const Help: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Explore the AST</h3>
                     <p className="text-base-content/70">
-                      Once uploaded, your code will be parsed into an Abstract Syntax Tree. 
-                      Navigate through the tree structure to understand your code's organization.
+                      Once uploaded, your code will be parsed into an Abstract Syntax Tree. Navigate
+                      through the tree structure to understand your code's organization.
                     </p>
                   </div>
                 </div>
@@ -97,8 +103,8 @@ export const Help: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Search and Filter</h3>
                     <p className="text-base-content/70">
-                      Use the search and filter tools to find specific code patterns, 
-                      function definitions, or any other AST nodes you're interested in.
+                      Use the search and filter tools to find specific code patterns, function
+                      definitions, or any other AST nodes you're interested in.
                     </p>
                   </div>
                 </div>
@@ -110,8 +116,8 @@ export const Help: React.FC = () => {
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Analyze and Refactor</h3>
                     <p className="text-base-content/70">
-                      Identify refactoring opportunities, understand code complexity, 
-                      and make informed decisions about your codebase structure.
+                      Identify refactoring opportunities, understand code complexity, and make
+                      informed decisions about your codebase structure.
                     </p>
                   </div>
                 </div>
@@ -124,7 +130,7 @@ export const Help: React.FC = () => {
                 <MaterialIcon name="featured_play_list" className="mr-3 text-primary" />
                 Features Overview
               </h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <h3 className="text-xl font-semibold flex items-center">
@@ -188,7 +194,7 @@ export const Help: React.FC = () => {
                 <MaterialIcon name="quiz" className="mr-3 text-primary" />
                 FAQ
               </h2>
-              
+
               <div className="space-y-4">
                 {faqItems.map((item, index) => (
                   <div key={index} className="border border-base-300 rounded-lg overflow-hidden">
@@ -197,8 +203,8 @@ export const Help: React.FC = () => {
                       onClick={() => toggleFAQ(index)}
                     >
                       <span className="font-medium text-base-content">{item.question}</span>
-                      <MaterialIcon 
-                        name={expandedFAQ === index ? "expand_less" : "expand_more"} 
+                      <MaterialIcon
+                        name={expandedFAQ === index ? "expand_less" : "expand_more"}
                         className="text-base-content/60"
                       />
                     </button>
@@ -216,4 +222,4 @@ export const Help: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};

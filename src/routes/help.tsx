@@ -7,4 +7,4 @@ export const Route = createFileRoute("/help")({
 
 function RouteComponent() {
   return <Help />;
-} 
+}

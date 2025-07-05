@@ -6,7 +6,8 @@ export const Home: React.FC = () => {
   const features = [
     {
       title: "AST Power Search",
-      description: "Search and analyze your code's Abstract Syntax Tree with powerful filtering and visualization tools.",
+      description:
+        "Search and analyze your code's Abstract Syntax Tree with powerful filtering and visualization tools.",
       icon: "search",
       path: "/ast_power_search",
       color: "bg-blue-500",
@@ -36,7 +37,7 @@ export const Home: React.FC = () => {
             Refactor Toolbox
           </h1>
           <p className="text-xl text-base-content/80 max-w-3xl mx-auto leading-relaxed">
-            Your comprehensive toolkit for code analysis, refactoring, and purposeful development. 
+            Your comprehensive toolkit for code analysis, refactoring, and purposeful development.
             Explore your codebase with powerful AST visualization and advanced development tools.
           </p>
         </div>
@@ -44,21 +45,17 @@ export const Home: React.FC = () => {
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {features.map((feature) => (
-            <Link
-              key={feature.title}
-              to={feature.path}
-              className="group block"
-            >
+            <Link key={feature.title} to={feature.path} className="group block">
               <div className="bg-base-100 rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-base-300 hover:border-primary/30">
-                <div className={`w-16 h-16 rounded-lg ${feature.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                <div
+                  className={`w-16 h-16 rounded-lg ${feature.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
+                >
                   <MaterialIcon name={feature.icon} className="text-white text-2xl" />
                 </div>
                 <h3 className="text-2xl font-semibold mb-4 group-hover:text-primary transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-base-content/70 leading-relaxed">
-                  {feature.description}
-                </p>
+                <p className="text-base-content/70 leading-relaxed">{feature.description}</p>
                 <div className="mt-6 flex items-center text-primary font-medium group-hover:translate-x-2 transition-transform duration-300">
                   <span>Get Started</span>
                   <MaterialIcon name="arrow_forward" className="ml-2" />
@@ -78,7 +75,8 @@ export const Home: React.FC = () => {
                 Upload Your Code
               </h3>
               <p className="text-base-content/70 mb-4">
-                Start by uploading your JavaScript, TypeScript, or other supported files to begin analyzing your codebase.
+                Start by uploading your JavaScript, TypeScript, or other supported files to begin
+                analyzing your codebase.
               </p>
               <ul className="space-y-2 text-sm text-base-content/60">
                 <li>• Supported: JavaScript, TypeScript, JSX, TSX</li>
@@ -92,7 +90,8 @@ export const Home: React.FC = () => {
                 Analyze & Refactor
               </h3>
               <p className="text-base-content/70 mb-4">
-                Use our powerful AST tools to understand your code structure and identify refactoring opportunities.
+                Use our powerful AST tools to understand your code structure and identify
+                refactoring opportunities.
               </p>
               <ul className="space-y-2 text-sm text-base-content/60">
                 <li>• Visual AST exploration</li>
@@ -105,13 +104,8 @@ export const Home: React.FC = () => {
 
         {/* Footer CTA */}
         <div className="text-center mt-16">
-          <p className="text-base-content/60 mb-4">
-            Ready to transform your codebase?
-          </p>
-          <Link
-            to="/ast_power_search"
-            className="btn btn-primary btn-lg"
-          >
+          <p className="text-base-content/60 mb-4">Ready to transform your codebase?</p>
+          <Link to="/ast_power_search" className="btn btn-primary btn-lg">
             <MaterialIcon name="rocket_launch" className="mr-2" />
             Start Exploring
           </Link>
@@ -119,4 +113,4 @@ export const Home: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};
