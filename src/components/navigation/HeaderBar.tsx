@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "@tanstack/react-router";
+import { MaterialIcon } from "../common/MaterialIcon";
 import { GitMenu } from "../git/GitMenu";
 import { NavigationSearch } from "./NavigationSearch";
 export const HeaderBar: React.FC = () => {
