@@ -36,7 +36,7 @@ export const Home: React.FC = () => {
             Refactor Toolbox
           </h1>
           <p className="text-xl text-base-content/80 max-w-3xl mx-auto leading-relaxed">
-            Your comprehensive toolkit for code analysis, refactoring, and development. 
+            Your comprehensive toolkit for code analysis, refactoring, and purposeful development. 
             Explore your codebase with powerful AST visualization and advanced development tools.
           </p>
         </div>

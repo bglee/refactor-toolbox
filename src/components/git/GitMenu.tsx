@@ -33,7 +33,7 @@ export const GitMenu: React.FC = () => {
       {open && (
         <div
           ref={popoverRef}
-          className="bg-neutral border border-primary p-2 rounded z-10 absolute top-full right-0 mt-1 w-[40vw]"
+          className="bg-base-200 border border-base-300 p-2 rounded z-10 absolute top-full right-0 mt-1 w-[40vw]"
         ></div>
       )}
     </div>

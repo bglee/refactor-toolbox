@@ -243,8 +243,8 @@ interface FilterBoxDropdownItemProps {
 
 const DropdownItem = ({ label, value, onClick, selected }: FilterBoxDropdownItemProps) => (
   <li
-    className={`py-1 relative cursor-pointer hover:bg-yellow-50 hover:text-gray-900 z-10 ${
-      selected ? "bg-yellow-50 text-gray-900" : ""
+    className={`py-1 relative cursor-pointer hover:bg-primary/10 hover:text-base-content z-10 ${
+      selected ? "bg-primary/10 text-base-content" : ""
     }`}
     onMouseDown={onClick}
   >
@@ -330,7 +330,7 @@ export const FilterBox = () => {
         />
       </div>
       {dropdownActive && (
-        <ul className="bg-neutral w-full z-10 p-1 absolute top-8 max-h-[30vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 rounded-b-md">
+        <ul className="bg-base-200 border border-base-300 w-full z-10 p-1 absolute top-8 max-h-[30vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-md">
           {isTagSearch
             ? filterKeyOptionsFiltered.map((filterKey, index) => (
                 <DropdownItem

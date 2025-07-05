@@ -98,7 +98,7 @@ export const NavigationSearch: React.FC = () => {
         />
       </div>
       {dropdownActive && (
-        <div className="bg-neutral w-1/4 z-10 p-1 absolute max-h-[80vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 rounded-b-md">
+        <div className="bg-base-200 border border-base-300 w-1/4 z-10 p-1 absolute max-h-[80vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-md">
           {filteredNavigationMenuItems.map((item) => (
             <div
               className="py-1 px-2 flex items-center justify-start hover:bg-base-200 rounded-md cursor-pointer"

@@ -85,7 +85,7 @@ export const VisiblityButton: React.FC = () => {
       </button>
       {open && (
         <div
-          className="bg-neutral border border-primary p-2 rounded z-10 absolute top-full left-3 mt-1 w-[48vw] max-h-[27vw] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
+          className="bg-base-200 border border-base-300 p-2 rounded z-10 absolute top-full left-3 mt-1 w-[48vw] max-h-[27vw] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200"
           ref={popoverRef}
         >
           {allKeys.length === 0 && (

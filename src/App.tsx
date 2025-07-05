@@ -21,7 +21,7 @@ const App = () => {
   });
 
   return (
-    <div className="flex flex-col h-screen bg-black">
+    <div className="flex flex-col h-screen bg-base-100">
       <RouterProvider router={router} />
     </div>
   );
