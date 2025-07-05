@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as Dev_toolsRouteImport } from './routes/dev_tools'
 import { Route as Ast_power_searchRouteImport } from './routes/ast_power_search'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Dev_toolsRoute = Dev_toolsRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ast_power_search': typeof Ast_power_searchRoute
   '/dev_tools': typeof Dev_toolsRoute
+  '/help': typeof HelpRoute
   '/settings': typeof SettingsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ast_power_search': typeof Ast_power_searchRoute
   '/dev_tools': typeof Dev_toolsRoute
+  '/help': typeof HelpRoute
   '/settings': typeof SettingsRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,28 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ast_power_search': typeof Ast_power_searchRoute
   '/dev_tools': typeof Dev_toolsRoute
+  '/help': typeof HelpRoute
   '/settings': typeof SettingsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ast_power_search' | '/dev_tools' | '/settings'
+  fullPaths: '/' | '/ast_power_search' | '/dev_tools' | '/help' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ast_power_search' | '/dev_tools' | '/settings'
-  id: '__root__' | '/' | '/ast_power_search' | '/dev_tools' | '/settings'
+  to: '/' | '/ast_power_search' | '/dev_tools' | '/help' | '/settings'
+  id:
+    | '__root__'
+    | '/'
+    | '/ast_power_search'
+    | '/dev_tools'
+    | '/help'
+    | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   Ast_power_searchRoute: typeof Ast_power_searchRoute
   Dev_toolsRoute: typeof Dev_toolsRoute
+  HelpRoute: typeof HelpRoute
   SettingsRoute: typeof SettingsRoute
 }
 
@@ -76,6 +92,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dev_tools': {
@@ -106,6 +129,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   Ast_power_searchRoute: Ast_power_searchRoute,
   Dev_toolsRoute: Dev_toolsRoute,
+  HelpRoute: HelpRoute,
   SettingsRoute: SettingsRoute,
 }
 export const routeTree = rootRouteImport
