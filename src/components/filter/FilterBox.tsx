@@ -4,10 +4,6 @@ import { Filter, FilterTerms } from "../../model/filter";
 import { useFilterStore } from "../../store/store-hooks/useFilterStore";
 import { useSearchTerms } from "../../store/derived-store-hooks/useSearchTerms";
 
-interface FilterBoxProps<T extends string> {
-  filterTermOptions: FilterTerms<T>;
-}
-
 export const useFilterBoxState = <T extends string>() => {
   const [filter, setFilter] = React.useState<Filter<T>>({ tags: [] });
   const updateFilter = (newFilter: Filter<T>) => {
