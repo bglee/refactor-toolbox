@@ -91,7 +91,14 @@ export const FileSelect: React.FC = () => {
 
   return (
     <div className="pl-5 flex flex-row gap-1 items-center">
-      <input type="file" onChange={handleFileInput} />
+      <div className="flex items-center gap-4">
+        <input type="file" onChange={handleFileInput} className="file-input file-input-sm" />
+        {codeState.file && (
+          <span className="text-sm text-gray-600">
+            Selected: {codeState.file.name} ({(codeState.file.size / 1024).toFixed(1)} KB)
+          </span>
+        )}
+      </div>
       <div className="flex-grow" />
       {codeState.file && (
         <>

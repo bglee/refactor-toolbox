@@ -34,6 +34,7 @@ export const NavigationSearch: React.FC = () => {
   const searchRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
+  const [dropdownWidth, setDropdownWidth] = useState("25%");
 
   const navigate = useNavigate();
 
@@ -68,6 +69,9 @@ export const NavigationSearch: React.FC = () => {
 
   const handleClick = () => {
     setSearchFocused(true);
+    if (searchRef.current?.clientWidth) {
+      setDropdownWidth(`${searchRef.current.clientWidth}px`);
+    }
     searchRef.current?.focus();
   };
 
@@ -80,12 +84,13 @@ export const NavigationSearch: React.FC = () => {
       searchRef.current?.focus();
     }
   };
+  console.log(searchRef.current?.clientWidth);
 
   return (
     <div className="flex-none" ref={searchRef} onClick={handleClick}>
       <div
         id="input"
-        className={`bg-base-200 border-2 border-base-300 flex items-center p-1 rounded-t-md`}
+        className={`w-full bg-base-200 border-2 border-base-300 flex items-center p-1 ${dropdownActive ? "rounded-t-md" : "rounded-md"}`}
       >
         <div className="cursor-pointer flex items-center justify-center mr-2">
           <MaterialIcon name="menu" />
@@ -98,7 +103,10 @@ export const NavigationSearch: React.FC = () => {
         />
       </div>
       {dropdownActive && (
-        <div className="bg-base-200 border border-base-300 w-1/4 z-10 p-1 absolute max-h-[80vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-md">
+        <div
+          className="bg-base-200 border border-base-300 z-10 p-1 absolute max-h-[80vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-md"
+          style={{ width: dropdownWidth, minWidth: "140px" }}
+        >
           {filteredNavigationMenuItems.map((item) => (
             <div
               className="py-1 px-2 flex items-center justify-start hover:bg-base-200 rounded-md cursor-pointer"

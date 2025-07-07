@@ -43,12 +43,14 @@ export const CodeVisualizer: React.FC = () => {
   }, [highlight, codeState.content]);
 
   return (
-    <CodeBlock
-      text={codeState.content}
-      language={codeState.languageName}
-      showLineNumbers={true}
-      theme={codeBlockTheme}
-      highlight={highlightLines || undefined}
-    />
+    codeState.content && (
+      <CodeBlock
+        text={codeState.content}
+        language={codeState.languageName}
+        showLineNumbers={true}
+        theme={codeBlockTheme}
+        highlight={highlightLines || undefined}
+      />
+    )
   );
 };
