@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useCallback } from "react";
 import { buildSearchIndex } from "../../store/derived-store-hooks/useFilteredASTNodes";
 import { getSearchTermsInDepth } from "../../store/derived-store-hooks/useSearchTerms";
@@ -110,14 +111,14 @@ export const AstNavPerformaceTest: React.FC = () => {
     }
   }, [selectedFile, fileContent, selectedParser, detectLanguage]);
 
-  const countNodes = useCallback((node: any): number => {
+  const countNodes = useCallback((node: ASTNode): number => {
     if (!node || typeof node !== "object") return 0;
     let count = 1;
     for (const key in node) {
       const value = node[key];
       if (Array.isArray(value)) {
         for (const item of value) {
-          count += countNodes(item);
+          count += countNodes(item as ASTNode);
         }
       } else if (value && typeof value === "object") {
         count += countNodes(value);
@@ -159,12 +160,14 @@ export const AstNavPerformaceTest: React.FC = () => {
         // Test search terms generation
         setLoadingStep("Generating search terms...");
         const searchTermsStart = performance.now();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const searchTerms = getSearchTermsInDepth(parsedAST);
         const searchTermsEnd = performance.now();
 
         // Test search index building
         setLoadingStep("Building search index...");
         const searchIndexStart = performance.now();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const searchIndex = buildSearchIndex(parsedAST);
         const searchIndexEnd = performance.now();
 

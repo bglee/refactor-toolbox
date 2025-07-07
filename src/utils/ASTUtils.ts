@@ -42,7 +42,10 @@ export const extractPosition = (
   }
 
   if (node.loc && typeof node.loc === "object") {
-    const loc = node.loc as any;
+    const loc = node.loc as unknown as {
+      start: { line: number; column: number };
+      end: { line: number; column: number };
+    };
     if (loc.start && loc.end && sourceCode) {
       // Convert line/column positions to character offsets
       const startOffset = lineColumnToOffset(sourceCode, loc.start.line, loc.start.column);

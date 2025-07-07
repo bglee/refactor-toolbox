@@ -84,7 +84,6 @@ export const NavigationSearch: React.FC = () => {
       searchRef.current?.focus();
     }
   };
-  console.log(searchRef.current?.clientWidth);
 
   return (
     <div className="flex-none" ref={searchRef} onClick={handleClick}>

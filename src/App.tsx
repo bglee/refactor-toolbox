@@ -1,4 +1,3 @@
-import { HeaderBar } from "./components/navigation/HeaderBar";
 import { AppTheme } from "./config/theming";
 import { useLocalStore } from "./store/bindings/useLocalStore";
 import { settingsStore } from "./store/store";

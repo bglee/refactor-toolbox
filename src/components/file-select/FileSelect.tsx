@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { languages } from "../../parsers/_parser_constants";
 import { useCodeStateStore } from "../../store/store-hooks/useCodeStateStore";
 import { generateChecksum } from "../../utils/ChecksumUtils";

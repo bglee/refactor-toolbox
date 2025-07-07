@@ -5,10 +5,6 @@ import { ListUtils } from "../../utils/ListUtils";
 import { useKeyVisibilityStore } from "../../store/store-hooks/useKeyVisibilityStore";
 import { useSearchTerms } from "../../store/derived-store-hooks/useSearchTerms";
 
-interface VisibilityButtonProps {
-  allKeys: string[];
-}
-
 interface VisibilityKeySectionProps {
   title: string;
   children: React.ReactNode;

@@ -25,6 +25,7 @@ export const ASTContextMenu: React.FC = () => {
   const handleHighlight = useCallback(() => {
     // This should never happen, but just in case
     if (!contextMenu?.astBrowserContext.node || !highlightInCodePosition) {
+      //eslint-disable-next-line no-console
       console.error("No position information found for this AST node.");
       setContextMenu(null);
       return;

@@ -14,6 +14,8 @@ export const useSourceFileParser = () => {
         const parser = languages.find((parser) => parser.languageName === codeState.languageName);
 
         if (codeState.languageName && !parser) {
+          // We should error log this to the console.
+          //eslint-disable-next-line no-console
           console.error(`Unsupported language: ${codeState.languageName}`);
           return;
         }

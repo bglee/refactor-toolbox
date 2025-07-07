@@ -259,7 +259,7 @@ export const FilterBox = () => {
     //Filter out keys with no search terms
     () =>
       Object.entries(filterTermOptions)
-        .filter(([_key, value]) => value.length > 0)
+        .filter(([, value]) => value.length > 0)
         .map(([key]) => key),
     [filterTermOptions]
   );

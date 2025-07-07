@@ -3,7 +3,6 @@ import { AppTheme } from "../config/theming";
 import { Filter } from "../model/filter";
 import { CodeState, HighlightState } from "../model/CodeState";
 import { ContextMenuState } from "../model/ContextMenuState";
-import { ASTNode } from "../model/AstNode";
 import { AstState } from "../model/AstState";
 
 //Settings Store.
@@ -31,6 +30,7 @@ export const DEFAULT_CODE_STATE: CodeState = {
   parserId: "",
   content: "",
   checksum: "",
+  file: undefined,
 };
 
 //AST Store

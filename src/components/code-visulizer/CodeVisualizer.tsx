@@ -1,5 +1,5 @@
 import { CodeBlock } from "react-code-blocks";
-import { codeBlockThemeMap, AppTheme } from "../../config/theming";
+import { codeBlockThemeMap } from "../../config/theming";
 import { useThemeStore } from "../../store/store-hooks/useThemeStore";
 import { useCodeStateStore } from "../../store/store-hooks/useCodeStateStore";
 import { useHighlightStore } from "../../store/store-hooks/useHighlightStore";
@@ -8,7 +8,7 @@ import { useMemo } from "react";
 export const CodeVisualizer: React.FC = () => {
   const { theme: currentTheme } = useThemeStore();
   const { codeState } = useCodeStateStore();
-  const { highlight, setHighlight } = useHighlightStore();
+  const { highlight } = useHighlightStore();
   const codeBlockTheme = codeBlockThemeMap.get(currentTheme);
 
   if (!codeBlockTheme) {

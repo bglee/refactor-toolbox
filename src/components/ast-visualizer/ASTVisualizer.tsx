@@ -5,7 +5,7 @@ import { ASTTree } from "./ASTTree";
 
 const debugFlag = false;
 
-export const ASTVisualizer: React.FC = ({}) => {
+export const ASTVisualizer: React.FC = () => {
   const { keyVisibility } = useKeyVisibilityStore();
   const filteredASTNodes = useFilteredASTNodes();
 
