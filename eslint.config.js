@@ -1,33 +1,31 @@
 import js from "@eslint/js";
+import tseslint from "typescript-eslint";
 
 export default [
   js.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
+    ignores: [
+      "eslint.config.js",
+      "*.config.js",
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      "public/**",
+    ],
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
-      globals: {
-        window: "readonly",
-        document: "readonly",
-        console: "readonly",
-        process: "readonly",
-        Buffer: "readonly",
-        __dirname: "readonly",
-        __filename: "readonly",
-        global: "readonly",
-        module: "readonly",
-        require: "readonly",
-        exports: "readonly",
-      },
+      parser: tseslint.parser,
       parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
+        ecmaVersion: "latest",
+        sourceType: "module",
+        ecmaFeatures: { jsx: true },
+        project: "./tsconfig.json",
       },
     },
     rules: {
-      "no-unused-vars": "warn",
+      "no-unused-vars": "off", // Turn off base rule
+      "@typescript-eslint/no-unused-vars": "warn", // Use TypeScript version
       "no-console": "warn",
     },
   },
