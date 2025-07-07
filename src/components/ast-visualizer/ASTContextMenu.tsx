@@ -3,11 +3,13 @@ import { useContextMenuStore } from "../../store/store-hooks/useContextMenuStore
 import { useHighlightStore } from "../../store/store-hooks/useHighlightStore";
 import { useCodeStateStore } from "../../store/store-hooks/useCodeStateStore";
 import { extractPosition } from "../../utils/ASTUtils";
+import useModalStateStore from "../../store/store-hooks/useModalStateStore";
 
 export const ASTContextMenu: React.FC = () => {
   const { contextMenu, setContextMenu } = useContextMenuStore();
   const { setHighlight } = useHighlightStore();
   const { codeState } = useCodeStateStore();
+  const { setModalState } = useModalStateStore();
 
   const highlightInCodePosition = useMemo(() => {
     if (!contextMenu?.astBrowserContext.node) {
@@ -40,9 +42,17 @@ export const ASTContextMenu: React.FC = () => {
     setHighlight(highlightInCodePosition);
 
     setContextMenu(null);
-  }, [contextMenu, highlightInCodePosition, codeState, setHighlight, setContextMenu]);
+  }, [
+    contextMenu,
+    highlightInCodePosition,
+    codeState,
+    setHighlight,
+    setContextMenu,
+    setModalState,
+  ]);
 
   const handleAddToFilter = () => {
+    setModalState({ modalKey: "ast-visualizer" });
     setContextMenu(null);
   };
 

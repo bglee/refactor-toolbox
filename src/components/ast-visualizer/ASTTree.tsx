@@ -2,6 +2,7 @@ import { ASTNode } from "../../model/AstNode";
 import { ASTNodeProvider, useASTNodeState } from "./ASTNodeContext";
 import ASTNodeDisplay from "./ASTNodeDisplay";
 import { ASTContextMenu } from "./ASTContextMenu";
+import ASTVisulizerModal from "./ASTVisulizerModal";
 
 type ASTTreeProps = {
   astNode: ASTNode;
@@ -16,6 +17,7 @@ export const ASTTree: React.FC<ASTTreeProps> = ({ astNode, displayKeys }) => {
         <ASTNodeDisplay node={astNode} displayKeys={displayKeys} />
       </ASTNodeProvider>
       <ASTContextMenu />
+      <ASTVisulizerModal />
     </>
   );
 };

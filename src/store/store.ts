@@ -4,6 +4,7 @@ import { Filter } from "../model/filter";
 import { CodeState, HighlightState } from "../model/CodeState";
 import { ContextMenuState } from "../model/ContextMenuState";
 import { AstState } from "../model/AstState";
+import { ModalState } from "../model/ModalState";
 
 //Settings Store.
 export const DEFAULT_THEME = AppTheme.dracula;
@@ -45,6 +46,14 @@ export const DEFAULT_HIGHLIGHT: HighlightState | null = null;
 
 export const highlightStore = new Store<HighlightState | null>(DEFAULT_HIGHLIGHT);
 
+//Context Menu Store
 const DEFAULT_CONTEXT_MENU: ContextMenuState | null = null;
 
 export const contextMenuStore = new Store<ContextMenuState | null>(DEFAULT_CONTEXT_MENU);
+
+//Modal Store
+const DEFAULT_MODAL: ModalState = {
+  modalKey: "",
+};
+
+export const modalStore = new Store<ModalState>(DEFAULT_MODAL);
