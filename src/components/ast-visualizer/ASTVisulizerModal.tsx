@@ -1,12 +1,15 @@
 import React from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
 import useModalStateStore from "../../store/store-hooks/useModalStateStore";
+import FilterTag from "../filter/FilterTag";
+import { useFilterStore } from "../../store/store-hooks/useFilterStore";
 
 const ASTVisulizerModal = () => {
   const { modalState, setModalState } = useModalStateStore();
+  const { filter, setFilter } = useFilterStore();
 
   const handleClose = () => {
-    setModalState({ modalKey: "" });
+    setModalState(null);
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -15,19 +18,19 @@ const ASTVisulizerModal = () => {
     }
   };
 
-  if (modalState.modalKey !== "ast-visualizer") {
-    return null;
-  }
+  const handleAddToFilter = (key: string, value: string) => {
+    setFilter({ tags: [...filter.tags, { tag: key, term: value }] });
+  };
 
-  return (
+  return modalState?.modalKey === "ast-visualizer" ? (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center"
       onClick={handleBackdropClick}
     >
-      <div className="bg-base-100 rounded-lg shadow-2xl w-full max-w-4xl h-full max-h-[90vh] m-4 relative">
+      <div className="bg-base-200 rounded-lg shadow-2xl w-3/4 max-w-4xl h-full max-h-[40vh] m-4 relative">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-base-300">
-          <h2 className="text-xl font-semibold">AST Visualizer</h2>
+          <h2 className="text-xl font-semibold">Add to Filter</h2>
           <button
             onClick={handleClose}
             className="btn btn-ghost btn-sm btn-circle hover:bg-base-200"
@@ -38,15 +41,31 @@ const ASTVisulizerModal = () => {
         </div>
 
         {/* Content */}
-        <div className="p-6 h-full overflow-auto">
-          <div className="text-center text-base-content/70">
-            <MaterialIcon name="code" className="text-4xl mb-4 opacity-50" />
-            <p>AST Visualizer content will be displayed here.</p>
+        <div className="p-6 h-full overflow-y-scroll">
+          <div className="text-center text-base-content/70 flex flex-col gap-2 justify-center items-center">
+            <div className="w-1/4">
+              {Object.entries(modalState?.astBrowserContext.node).map(([key, value]) =>
+                typeof value === "string" ||
+                typeof value === "number" ||
+                typeof value === "boolean" ? (
+                  <div key={key} className="p-2">
+                    <FilterTag
+                      key={key}
+                      tag={key}
+                      term={value.toString()}
+                      size="lg"
+                      disabled={filter.tags.some((tag) => tag.tag === key)}
+                      onClick={() => handleAddToFilter(key, value.toString())}
+                    />
+                  </div>
+                ) : null
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default ASTVisulizerModal;

@@ -52,7 +52,15 @@ export const ASTContextMenu: React.FC = () => {
   ]);
 
   const handleAddToFilter = () => {
-    setModalState({ modalKey: "ast-visualizer" });
+    if (contextMenu?.astBrowserContext) {
+      setModalState({
+        modalKey: "ast-visualizer",
+        astBrowserContext: {
+          node: contextMenu.astBrowserContext.node,
+          nodePath: contextMenu.astBrowserContext.nodePath,
+        },
+      });
+    }
     setContextMenu(null);
   };
 

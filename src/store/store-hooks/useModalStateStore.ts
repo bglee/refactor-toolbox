@@ -5,7 +5,7 @@ import { ModalState } from "../../model/ModalState";
 const useModalStateStore = () => {
   return {
     modalState: useStore(modalStore, (state) => state),
-    setModalState: (modal: ModalState) => modalStore.setState(() => modal),
+    setModalState: (modal: ModalState | null) => modalStore.setState(() => modal),
   };
 };
 

@@ -3,6 +3,7 @@ import { MaterialIcon } from "../common/MaterialIcon";
 import { Filter, FilterTerms } from "../../model/filter";
 import { useFilterStore } from "../../store/store-hooks/useFilterStore";
 import { useSearchTerms } from "../../store/derived-store-hooks/useSearchTerms";
+import FilterTag from "./FilterTag";
 
 export const useFilterBoxState = <T extends string>() => {
   const [filter, setFilter] = React.useState<Filter<T>>({ tags: [] });
@@ -298,20 +299,12 @@ export const FilterBox = () => {
         <MaterialIcon name="search" className="px-2" />
 
         {filter.tags.map(({ tag, term }, i) => (
-          <div
-            className="badge whitespace-nowrap rounded-md p-2 shadow-sm shadow-primary/40 h-6 mr-3 flex items-center justify-center"
-            key={i}
-          >
-            <div
-              className="cursor-pointer text-[14px] flex items-center justify-center mr-2 font-bold font-mono text-primary/50"
-              onClick={() => setFilter({ tags: filter.tags.filter((_, index) => index !== i) })}
-            >
-              x
-            </div>
-
-            <span className="">{`${tag} : `}</span>
-            <span className="text-primary/80 pl-1">{term}</span>
-          </div>
+          <FilterTag
+            key={i.toString()}
+            tag={tag}
+            term={term}
+            onRemove={() => setFilter({ tags: filter.tags.filter((_, index) => index !== i) })}
+          />
         ))}
 
         {currentTag !== "" && (

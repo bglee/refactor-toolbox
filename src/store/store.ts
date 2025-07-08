@@ -52,8 +52,6 @@ const DEFAULT_CONTEXT_MENU: ContextMenuState | null = null;
 export const contextMenuStore = new Store<ContextMenuState | null>(DEFAULT_CONTEXT_MENU);
 
 //Modal Store
-const DEFAULT_MODAL: ModalState = {
-  modalKey: "",
-};
+const DEFAULT_MODAL: ModalState | null = null;
 
-export const modalStore = new Store<ModalState>(DEFAULT_MODAL);
+export const modalStore = new Store<ModalState | null>(DEFAULT_MODAL);
