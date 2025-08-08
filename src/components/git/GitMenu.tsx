@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useEffect, useRef } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
+import { IconButton } from "../common/IconButton";
 
 export const GitMenu: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -19,21 +20,25 @@ export const GitMenu: React.FC = () => {
       }
     };
 
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
   return (
     <div className="flex items-center relative">
-      <button ref={triggerRef} onClick={() => setOpen(!open)} className="btn btn-ghost btn-circle">
-        <MaterialIcon name="polyline" />
-      </button>
+      <IconButton name="polyline" title="Git" onClick={() => setOpen(!open)} />
 
       {open && (
         <div
           ref={popoverRef}
-          className="bg-base-200 border border-base-300 p-2 rounded z-10 absolute top-full right-0 mt-1 w-[40vw]"
+          className="bg-base-100 border border-base-300 p-3 rounded-xl shadow-md z-20 absolute top-full right-0 mt-2 w-[40vw] max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200"
         ></div>
       )}
     </div>

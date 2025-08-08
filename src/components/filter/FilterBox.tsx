@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useEffect, useRef } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
 import { Filter, FilterTerms } from "../../model/filter";
 import { useFilterStore } from "../../store/store-hooks/useFilterStore";
@@ -109,29 +109,37 @@ const useFilterBoxInternalState = <T extends string>({
 
   const handleOnChangeForTag = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.value.endsWith(":")) {
-        // Check for exact match first
-        const searchValue = event.target.value.slice(0, -1); // Remove the colon
+      const value = event.target.value;
+
+      // If user types ':' and there is exactly one option, accept it
+      if (value.endsWith(":")) {
+        const searchValue = value.slice(0, -1);
         const exactMatch = filterKeyOptions.find(
           (key) => key.toLowerCase() === searchValue.toLowerCase()
         );
-
         if (exactMatch) {
           setCurrentTag(exactMatch as T);
           setCurrentTagSearch("");
+          return;
         }
-        // If no exact match but we have filtered results, take the first one
-        else if (filterKeyOptionsFiltered.length === 1) {
-          setCurrentTag(filterKeyOptionsFiltered[0] as T);
+        // If we have a single filtered option, accept it
+        const filtered = filterKeyOptions.filter((k) =>
+          k.toLowerCase().includes(searchValue.toLowerCase())
+        );
+        if (filtered.length === 1) {
+          setCurrentTag(filtered[0] as T);
           setCurrentTagSearch("");
-        } else {
-          setCurrentTagSearch(event.target.value);
+          return;
         }
-      } else {
-        setCurrentTagSearch(event.target.value);
+        // Otherwise, keep the ':' search text to continue filtering
+        setCurrentTagSearch(value);
+        return;
       }
+
+      // Live filter the list while typing (search mode)
+      setCurrentTagSearch(value);
     },
-    [filterKeyOptions, filterKeyOptionsFiltered, setCurrentTag, setCurrentTagSearch]
+    [filterKeyOptions, setCurrentTag, setCurrentTagSearch]
   );
 
   const handleClickForTag = useCallback(
@@ -170,23 +178,21 @@ const useFilterBoxInternalState = <T extends string>({
           setSelectedIndex((prev) => (prev <= 0 ? options.length - 1 : prev - 1));
           break;
         case "Enter":
-          if (selectedIndex >= 0) {
-            setCurrentTag("");
-            setCurrentTermSearch("");
-            onChange({
-              tags: [...filter.tags, { tag: currentTag as T, term: options[selectedIndex] }],
-            });
-            setSelectedIndex(-1);
-          } else if (options.length === 1) {
-            setCurrentTag("");
-            setCurrentTermSearch("");
-            onChange({
-              tags: [...filter.tags, { tag: currentTag as T, term: options[0] }],
-            });
+          {
+            const chosen = selectedIndex >= 0 ? options[selectedIndex] : options[0];
+            if (chosen !== undefined) {
+              setCurrentTag("");
+              setCurrentTermSearch("");
+              onChange({
+                tags: [...filter.tags, { tag: currentTag as T, term: chosen }],
+              });
+              setSelectedIndex(-1);
+            }
           }
           break;
         case "Backspace":
           if (currentTermSearch === "") {
+            // If no value text, exit value mode and remove the pending tag selection only
             setCurrentTag("");
           }
           break;
@@ -213,7 +219,65 @@ const useFilterBoxInternalState = <T extends string>({
     [currentTag, filter.tags, onChange, setCurrentTag]
   );
 
-  const dropdownActive = searchFocused && filterKeyOptionsFiltered.length > 0;
+  const dropdownActive =
+    searchFocused &&
+    (currentTag === "" ? filterKeyOptionsFiltered.length > 0 : termOptionsFiltered.length > 0);
+
+  // Refs to control focus
+  const tagInputRef = useRef<HTMLInputElement>(null); // key search input
+  const valueInputRef = useRef<HTMLInputElement>(null); // value input inside chip
+
+  // In search mode, Backspace with empty search deletes the last tag
+  // In value mode (inside a tag), Backspace with empty value exits tag selection
+  const handleContainerKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Escape") {
+        setSearchFocused(false);
+        return;
+      }
+      if (event.key !== "Backspace") return;
+
+      if (currentTag === "") {
+        // Search mode
+        if (currentTagSearch === "" && currentTermSearch === "" && filter.tags.length > 0) {
+          onChange({ tags: filter.tags.slice(0, -1) });
+        }
+      } else {
+        // Value mode
+        if (currentTermSearch === "") {
+          // If there is no value typed yet, exit tag selection entirely
+          setCurrentTag("");
+          // Focus back to key search input on next tick
+          setTimeout(() => tagInputRef.current?.focus(), 0);
+        }
+      }
+    },
+    [currentTag, currentTagSearch, currentTermSearch, filter.tags, onChange, setCurrentTag]
+  );
+
+  // Click outside to close dropdown only (do not clear inputs)
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setSearchFocused(false);
+      }
+    };
+    if (searchFocused) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [searchFocused]);
+
+  // Clicking the container re-opens and focuses the proper input
+  const handleContainerMouseDown = useCallback(() => {
+    setSearchFocused(true);
+    if (currentTag === "") {
+      setTimeout(() => tagInputRef.current?.focus(), 0);
+    } else {
+      setTimeout(() => valueInputRef.current?.focus(), 0);
+    }
+  }, [currentTag]);
 
   return {
     selectedIndex,
@@ -231,6 +295,11 @@ const useFilterBoxInternalState = <T extends string>({
     handleInputKeyDownForTerm,
     handleOnChangeForTerm,
     handleClickForTerm,
+    handleContainerKeyDown,
+    handleContainerMouseDown,
+    containerRef,
+    tagInputRef,
+    valueInputRef,
   };
 };
 
@@ -283,6 +352,11 @@ export const FilterBox = () => {
     handleInputKeyDownForTerm,
     handleOnChangeForTerm,
     handleClickForTerm,
+    handleContainerKeyDown,
+    handleContainerMouseDown,
+    containerRef,
+    tagInputRef,
+    valueInputRef,
   } = useFilterBoxInternalState({
     filterKeyOptions,
     filterTermOptions,
@@ -291,12 +365,17 @@ export const FilterBox = () => {
   });
 
   return (
-    <div className="w-full relative m-2">
+    <div
+      className="w-full relative m-2"
+      onKeyDown={handleContainerKeyDown}
+      onMouseDown={handleContainerMouseDown}
+      ref={containerRef}
+    >
       <div
         id="input"
-        className={`bg-base-200 border-2 border-base-300 flex items-center p-1 rounded-t-md ${!dropdownActive && "rounded-b-md"}`}
+        className={`bg-base-100 border border-base-300 flex flex-wrap items-center content-start gap-2 px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-primary/30 rounded-t-xl ${!dropdownActive ? "rounded-b-xl" : ""}`}
       >
-        <MaterialIcon name="search" className="px-2" />
+        <MaterialIcon name="search" className="text-base-content/60" />
 
         {filter.tags.map(({ tag, term }, i) => (
           <FilterTag
@@ -308,22 +387,36 @@ export const FilterBox = () => {
         ))}
 
         {currentTag !== "" && (
-          <div className="badge whitespace-nowrap rounded-md shadow-sm shadow-primary/20 h-6">
-            {currentTag}:
-          </div>
+          <FilterTag size="md" tag={currentTag} term="">
+            <input
+              ref={valueInputRef}
+              value={currentTermSearch}
+              onChange={handleOnChangeForTerm}
+              onKeyDown={handleInputKeyDownForTerm}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
+              className="bg-transparent outline-none placeholder:text-base-content/50 w-24"
+              placeholder="value"
+              autoFocus
+            />
+          </FilterTag>
         )}
 
-        <input
-          value={isTagSearch ? currentTagSearch : currentTermSearch}
-          className="w-full bg-base-200/0 focus:outline-none"
-          onFocus={() => setSearchFocused(true)}
-          onBlur={() => setSearchFocused(false)}
-          onKeyDown={isTagSearch ? handleInputKeyDownForTag : handleInputKeyDownForTerm}
-          onChange={isTagSearch ? handleOnChangeForTag : handleOnChangeForTerm}
-        />
+        {currentTag === "" && (
+          <input
+            ref={tagInputRef}
+            value={currentTagSearch}
+            className="flex-1 bg-transparent focus:outline-none placeholder:text-base-content/50 min-w-[8ch]"
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+            onKeyDown={handleInputKeyDownForTag}
+            onChange={handleOnChangeForTag}
+            placeholder="type key… then :"
+          />
+        )}
       </div>
       {dropdownActive && (
-        <ul className="bg-base-200 border border-base-300 w-full z-10 p-1 absolute top-8 max-h-[30vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-md">
+        <ul className="bg-base-100 border border-base-300 w-full z-20 p-2 absolute top-full left-0 max-h-[40vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-xl shadow-md">
           {isTagSearch
             ? filterKeyOptionsFiltered.map((filterKey, index) => (
                 <DropdownItem

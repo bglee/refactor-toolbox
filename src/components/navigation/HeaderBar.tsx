@@ -3,7 +3,7 @@ import { GitMenu } from "../git/GitMenu";
 import { NavigationSearch } from "./NavigationSearch";
 export const HeaderBar: React.FC = () => {
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
       <div className="flex-1">
         <div className="pr-2">
           <NavigationSearch />

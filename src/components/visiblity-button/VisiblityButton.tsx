@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
+import { IconButton } from "../common/IconButton";
 import { isCommonKey, isDefaultVisible } from "../../config/common_keys";
 import { ListUtils } from "../../utils/ListUtils";
 import { useKeyVisibilityStore } from "../../store/store-hooks/useKeyVisibilityStore";
@@ -18,19 +19,35 @@ interface KeyListItemProps {
 
 const VisiblityKeySection: React.FC<VisibilityKeySectionProps> = ({ title, children }) => (
   <>
-    <h4 className="text-lg font-bold">{title}</h4>
+    <h4 className="text-lg font-bold mb-2">{title}</h4>
     <ul className="grid grid-flow-row grid-cols-5 gap-2 p-2">{children}</ul>
   </>
 );
 
 const KeyListItem: React.FC<KeyListItemProps> = ({ keyName, checked, onChange }) => (
   <li className="whitespace-nowrap">
-    <label className="flex items-center gap-1 overflow-hidden">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-      <span title={keyName} className="truncate block max-w-[120px]">
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      aria-pressed={checked}
+      className={`inline-flex items-center justify-start gap-2 rounded-lg border px-3 py-2 w-full text-left transition-colors ${
+        checked
+          ? "border-primary/50 bg-primary/10 text-base-content"
+          : "border-base-300 bg-base-100 hover:border-base-content/30"
+      }`}
+    >
+      <span
+        className={`inline-flex h-5 w-5 items-center justify-center rounded-md border text-xs ${
+          checked ? "bg-primary text-primary-content border-primary" : "border-base-300"
+        }`}
+        aria-hidden="true"
+      >
+        {checked ? <MaterialIcon name="check" className="text-[14px] leading-none" /> : null}
+      </span>
+      <span title={keyName} className="truncate block">
         {keyName}
       </span>
-    </label>
+    </button>
   </li>
 );
 
@@ -65,9 +82,15 @@ export const VisiblityButton: React.FC = () => {
       }
     };
 
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKey);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKey);
     };
   }, []);
 
@@ -76,12 +99,10 @@ export const VisiblityButton: React.FC = () => {
 
   return (
     <div className="flex items-center relative">
-      <button onClick={() => setOpen(!open)} ref={triggerRef} className="flex items-center">
-        <MaterialIcon name="visibility" />
-      </button>
+      <IconButton name="visibility" title="Visibility" onClick={() => setOpen(!open)} />
       {open && (
         <div
-          className="bg-base-200 border border-base-300 p-2 rounded z-10 absolute top-full left-3 mt-1 w-[48vw] max-h-[27vw] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200"
+          className="bg-base-100 border border-base-300 p-3 rounded-xl shadow-md z-20 absolute top-full left-3 mt-2 w-[48vw] max-h-[60vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200"
           ref={popoverRef}
         >
           {allKeys.length === 0 && (

@@ -86,29 +86,29 @@ export const NavigationSearch: React.FC = () => {
   };
 
   return (
-    <div className="flex-none" ref={searchRef} onClick={handleClick}>
+    <div className="flex-none relative" ref={searchRef} onClick={handleClick}>
       <div
         id="input"
-        className={`w-full bg-base-200 border-2 border-base-300 flex items-center p-1 ${dropdownActive ? "rounded-t-md" : "rounded-md"}`}
+        className={`w-full bg-base-100 border border-base-300 flex items-center gap-2 px-3 py-2 ${dropdownActive ? "rounded-t-xl" : "rounded-xl"} shadow-sm focus-within:ring-2 focus-within:ring-primary/30`}
       >
-        <div className="cursor-pointer flex items-center justify-center mr-2">
+        <div className="cursor-pointer flex items-center justify-center text-base-content/60">
           <MaterialIcon name="menu" />
         </div>
         <input
           value={search}
-          className="w-full bg-base-200/0 focus:outline-none"
+          className="w-full bg-transparent focus:outline-none placeholder:text-base-content/50"
           onKeyDown={handleKeyDown}
           onChange={handleOnChange}
         />
       </div>
       {dropdownActive && (
         <div
-          className="bg-base-200 border border-base-300 z-10 p-1 absolute max-h-[80vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-md"
+          className="bg-base-100 border border-base-300 z-20 p-2 absolute top-full left-0 max-h-[70vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-xl shadow-md"
           style={{ width: dropdownWidth, minWidth: "140px" }}
         >
           {filteredNavigationMenuItems.map((item) => (
             <div
-              className="py-1 px-2 flex items-center justify-start hover:bg-base-200 rounded-md cursor-pointer"
+              className="py-2 px-3 flex items-center justify-start hover:bg-primary/10 rounded-lg cursor-pointer transition-colors"
               key={item.label}
               onClick={() => navigate({ to: item.path })}
             >

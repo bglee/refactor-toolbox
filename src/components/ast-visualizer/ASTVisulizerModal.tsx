@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MaterialIcon } from "../common/MaterialIcon";
 import useModalStateStore from "../../store/store-hooks/useModalStateStore";
 import FilterTag from "../filter/FilterTag";
@@ -18,6 +18,14 @@ const ASTVisulizerModal = () => {
     }
   };
 
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
   const handleAddToFilter = (key: string, value: string) => {
     setFilter({ tags: [...filter.tags, { tag: key, term: value }] });
   };
@@ -27,7 +35,7 @@ const ASTVisulizerModal = () => {
       className="fixed inset-0 z-50 flex items-center justify-center"
       onClick={handleBackdropClick}
     >
-      <div className="bg-base-200 rounded-lg shadow-2xl w-3/4 max-w-4xl h-full max-h-[40vh] m-4 relative">
+      <div className="bg-base-100 border border-base-300 rounded-xl shadow-2xl w-3/4 max-w-4xl h-full max-h-[40vh] m-4 relative">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-base-300">
           <h2 className="text-xl font-semibold">Add to Filter</h2>
@@ -50,7 +58,6 @@ const ASTVisulizerModal = () => {
                 typeof value === "boolean" ? (
                   <div key={key} className="p-2">
                     <FilterTag
-                      key={key}
                       tag={key}
                       term={value.toString()}
                       size="lg"
