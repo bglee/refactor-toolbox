@@ -373,7 +373,7 @@ export const FilterBox = () => {
     >
       <div
         id="input"
-        className={`bg-base-100 border border-base-300 flex flex-wrap items-center content-start gap-2 px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-primary/30 rounded-t-xl ${!dropdownActive ? "rounded-b-xl" : ""}`}
+        className={`bg-base-100 border border-base-300 flex flex-wrap items-center content-center gap-2 px-3 py-2 shadow-sm focus-within:ring-2 focus-within:ring-primary/30 rounded-t-xl min-h-[50px] ${!dropdownActive ? "rounded-b-xl" : ""}`}
       >
         <MaterialIcon name="search" className="text-base-content/60" />
 

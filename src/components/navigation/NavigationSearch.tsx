@@ -1,6 +1,30 @@
 import React, { useRef, useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { MaterialIcon } from "../common/MaterialIcon";
 import { useNavigate } from "@tanstack/react-router";
+
+/**
+ * Why a portal for the dropdown?
+ *
+ * The code viewer (and other components) can introduce their own stacking contexts
+ * via position/transform/filters. In those cases, even very large z-index values on
+ * an absolutely positioned dropdown can still render underneath those contexts.
+ *
+ * Rendering the dropdown in a portal attached to document.body and positioning it
+ * using fixed coordinates derived from getBoundingClientRect() ensures the surface
+ * always appears above any local stacking contexts created elsewhere in the app.
+ *
+ * Considerations handled here:
+ * - Positioning: We compute left/top/width from the input container's bounding rect
+ *   and update on open, window resize, and scroll (including nested scroll containers).
+ * - Outside click: Because the dropdown lives outside of the input container subtree,
+ *   the outside-click logic must consider both the input container and the portal node.
+ * - Z-index: We use a body-level fixed element with a high z-index so it layers above
+ *   code highlights and other overlays.
+ * - Accessibility/UX: Escape closes the dropdown; clicking the container reopens it.
+ * - Cleanup: All global event listeners are attached only while needed and are removed
+ *   on teardown to avoid leaks.
+ */
 
 const navigationMenuItems = [
   {
@@ -32,9 +56,14 @@ const navigationMenuItems = [
 
 export const NavigationSearch: React.FC = () => {
   const searchRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [search, setSearch] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
-  const [dropdownWidth, setDropdownWidth] = useState("25%");
+  const [dropdownRect, setDropdownRect] = useState<{ left: number; top: number; width: number }>({
+    left: 0,
+    top: 0,
+    width: 0,
+  });
 
   const navigate = useNavigate();
 
@@ -44,22 +73,47 @@ export const NavigationSearch: React.FC = () => {
 
   const dropdownActive = searchFocused;
 
-  // Handle clicks outside the component
+  // Compute and cache the input rect for fixed-positioned dropdown
+  const updateRect = () => {
+    const el = searchRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    setDropdownRect({ left: rect.left, top: rect.bottom, width: rect.width });
+  };
+
+  // Handle clicks outside the component (including portal dropdown)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(target) &&
+        (!dropdownRef.current || !dropdownRef.current.contains(target))
+      ) {
         setSearchFocused(false);
       }
     };
 
-    // Add event listener when dropdown is active
     if (dropdownActive) {
       document.addEventListener("mousedown", handleClickOutside);
+      updateRect();
     }
 
-    // Cleanup event listener
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownActive]);
+
+  // Reposition on resize/scroll when open
+  useEffect(() => {
+    if (!dropdownActive) return;
+    const onRecalc = () => updateRect();
+    window.addEventListener("resize", onRecalc);
+    window.addEventListener("scroll", onRecalc, true);
+    updateRect();
+    return () => {
+      window.removeEventListener("resize", onRecalc);
+      window.removeEventListener("scroll", onRecalc, true);
     };
   }, [dropdownActive]);
 
@@ -69,9 +123,7 @@ export const NavigationSearch: React.FC = () => {
 
   const handleClick = () => {
     setSearchFocused(true);
-    if (searchRef.current?.clientWidth) {
-      setDropdownWidth(`${searchRef.current.clientWidth}px`);
-    }
+    updateRect();
     searchRef.current?.focus();
   };
 
@@ -81,7 +133,10 @@ export const NavigationSearch: React.FC = () => {
       setSearchFocused(false);
     } else if (searchFocused === false) {
       setSearchFocused(true);
+      updateRect();
       searchRef.current?.focus();
+    } else if (e.key === "Escape") {
+      setSearchFocused(false);
     }
   };
 
@@ -101,23 +156,31 @@ export const NavigationSearch: React.FC = () => {
           onChange={handleOnChange}
         />
       </div>
-      {dropdownActive && (
-        <div
-          className="bg-base-100 border border-base-300 z-20 p-2 absolute top-full left-0 max-h-[70vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-xl shadow-md"
-          style={{ width: dropdownWidth, minWidth: "140px" }}
-        >
-          {filteredNavigationMenuItems.map((item) => (
-            <div
-              className="py-2 px-3 flex items-center justify-start hover:bg-primary/10 rounded-lg cursor-pointer transition-colors"
-              key={item.label}
-              onClick={() => navigate({ to: item.path })}
-            >
-              <MaterialIcon name={item.icon} className="px-2" />
-              <span className="text-sm">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      )}
+      {dropdownActive &&
+        createPortal(
+          <div
+            ref={dropdownRef}
+            className="bg-base-100 border border-base-300 z-50 p-2 fixed max-h-[70vh] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-base-400 scrollbar-track-base-200 rounded-b-xl shadow-md"
+            style={{
+              left: dropdownRect.left,
+              top: dropdownRect.top,
+              width: dropdownRect.width,
+              minWidth: 140,
+            }}
+          >
+            {filteredNavigationMenuItems.map((item) => (
+              <div
+                className="py-2 px-3 flex items-center justify-start hover:bg-primary/10 rounded-lg cursor-pointer transition-colors"
+                key={item.label}
+                onClick={() => navigate({ to: item.path })}
+              >
+                <MaterialIcon name={item.icon} className="px-2" />
+                <span className="text-sm">{item.label}</span>
+              </div>
+            ))}
+          </div>,
+          document.body
+        )}
     </div>
   );
 };
