@@ -30,15 +30,27 @@ const ASTVisulizerModal = () => {
     setFilter({ tags: [...filter.tags, { tag: key, term: value }] });
   };
 
-  return modalState?.modalKey === "ast-visualizer" ? (
+  if (modalState?.modalKey !== "ast-visualizer") return null;
+
+  const labelId = "ast-visualizer-title";
+
+  return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-base-300/40 backdrop-blur-sm p-4"
       onClick={handleBackdropClick}
+      role="presentation"
     >
-      <div className="bg-base-100 border border-base-300 rounded-xl shadow-2xl w-3/4 max-w-4xl h-full max-h-[40vh] m-4 relative">
+      <div
+        className="w-full max-w-4xl bg-base-100 border border-base-300 rounded-2xl shadow-xl overflow-hidden flex flex-col"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={labelId}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-base-300">
-          <h2 className="text-xl font-semibold">Add to Filter</h2>
+        <div className="flex items-center justify-between px-4 py-3 sm:px-6 border-b border-base-300">
+          <h2 id={labelId} className="text-xl font-semibold">
+            Add to Filter
+          </h2>
           <button
             onClick={handleClose}
             className="btn btn-ghost btn-sm btn-circle hover:bg-base-200"
@@ -49,30 +61,35 @@ const ASTVisulizerModal = () => {
         </div>
 
         {/* Content */}
-        <div className="p-6 h-full overflow-y-scroll">
-          <div className="text-center text-base-content/70 flex flex-col gap-2 justify-center items-center">
-            <div className="w-1/4">
-              {Object.entries(modalState?.astBrowserContext.node).map(([key, value]) =>
-                typeof value === "string" ||
-                typeof value === "number" ||
-                typeof value === "boolean" ? (
-                  <div key={key} className="p-2">
+        <div className="flex-1 min-h-0 overflow-auto px-4 py-4 sm:px-6 sm:py-6">
+          <div className="text-base-content/80">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              {Object.entries(modalState?.astBrowserContext?.node ?? {}).map(([key, value]) => {
+                const isPrimitive =
+                  typeof value === "string" ||
+                  typeof value === "number" ||
+                  typeof value === "boolean";
+                if (!isPrimitive) return null;
+                const term = value.toString();
+                const disabled = filter.tags.some((t) => t.tag === key);
+                return (
+                  <div key={key} className="">
                     <FilterTag
                       tag={key}
-                      term={value.toString()}
-                      size="lg"
-                      disabled={filter.tags.some((tag) => tag.tag === key)}
-                      onClick={() => handleAddToFilter(key, value.toString())}
+                      term={term}
+                      size="md"
+                      disabled={disabled}
+                      onClick={() => !disabled && handleAddToFilter(key, term)}
                     />
                   </div>
-                ) : null
-              )}
+                );
+              })}
             </div>
           </div>
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default ASTVisulizerModal;
